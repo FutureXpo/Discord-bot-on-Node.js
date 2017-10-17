@@ -66,6 +66,29 @@ client.on('message', message => {
 		message.author.send(`Ссылка для добавления меня в чат: https://discordapp.com/oauth2/authorize?&client_id=` + process.env.BOT_ID + `&scope=bot&permissions=8`);
 		message.delete().catch(O_o=>{});  
 	}
+	
+	/*Базовая версия чатбота*/
+	if(command === "chat") {
+		const chat_text = args.join(" ");
+		var data={
+			'input'  : chat_text,
+			'botcust2' : 'e5b0bfbd9e35edae'
+		}	
+		var options = {
+			url: 'http://sheepridge.pandorabots.com/pandora/talk?botid=b69b8d517e345aba&skin=custom_input',
+			method: 'POST',
+			form: data
+		}
+		request(options, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				var text = body.toString();
+				message.delete().catch(O_o=>{});  
+				message.reply(`
+You: `+chat_text+`
+Me : `+text.substring(text.lastIndexOf('<br>')+14));
+			}
+		})
+	}
 });
 
 /*Пишет в чат о том, что человек покинул сервер*/
