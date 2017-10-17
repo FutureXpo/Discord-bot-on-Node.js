@@ -1,3 +1,4 @@
+const request = require('request');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
