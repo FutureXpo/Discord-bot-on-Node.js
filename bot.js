@@ -15,9 +15,9 @@ client.on('message', message => {
     /*Не отвечает, если автор сообщения - другой бот*/
     if(message.author.bot) return;
     /*Не отвечает, если в начале сообщения не стоит знак обращения*/
-	if(message.content.indexOf(config.prefix) !== 0) return;
+	if(message.content.indexOf(process.env.PREFIX) !== 0) return;
     /*Получает данные команды*/
-	const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+	const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
 	const command = args.shift().toLowerCase();
     
     /*Возвращает пинг бота*/
@@ -34,7 +34,7 @@ client.on('message', message => {
     
     /*Очищает до 100 сообщений(включая сообщение с командой)*/
     if(command === "clear"||command === "clean"||command === "очистить"||command === "очисти") {
-		if (message.content===config.prefix+command)
+		if (message.content===process.env.PREFIX+command)
 			return message.channel.fetchMessages({limit: 100})
 				.then(messages => messages.deleteAll())
 				.catch(console.error);
@@ -49,7 +49,7 @@ client.on('message', message => {
     /*Возвращает справку*/
     if(command === "help"||command === "помощь"||command === "справка") {
 		message.reply(`\n **__Справка обо мне__**:\n   
-            Обращаться со знаком "`+config.prefix+`", другие сообщения не читаю\n 
+            Обращаться со знаком "`+process.env.PREFIX+`", другие сообщения не читаю\n 
             **__Знаю команды__**:\n   
             say __  _  __ (фраза) - говорю ваши слова\n   
             clear __  _  __ (число) - очищаю несколько сообщений (до 100)\n   
