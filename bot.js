@@ -67,5 +67,22 @@ client.on('message', message => {
     }
 });
 
+/*Пишет в чат о том, что человек покинул сервер*/
+client.on('guildMemberAdd', member => {
+  	const channel = member.guild.channels.find('name', 'member-log');
+  	if (!channel) return;
+  	channel.send(`К великому сожалению, нас покинул холоп ${member}`);
+});
+
+/*Пишет в лог, когда бота добавили насервер*/
+client.on("guildCreate", guild => {
+	console.log(`Меня добавили на сервер: ${guild.name} (id: ${guild.id}). На этом сервере ${guild.memberCount} участников!`);
+});
+
+/*Пишет в лог, когда бота выгнали из чата*/
+client.on("guildDelete", guild => {
+	console.log(`Меня выгнали из: ${guild.name} (id: ${guild.id})`);
+});
+
 // Инициализация бота
 client.login(process.env.BOT_TOKEN);
