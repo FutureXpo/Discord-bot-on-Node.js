@@ -1,2 +1,1 @@
-# discord-bot-1
-Bot for discord
+# Небольшой бот для дискорда на Node.js
