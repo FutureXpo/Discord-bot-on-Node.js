@@ -84,7 +84,7 @@ client.on('message', message => {
 			if (!error && response.statusCode == 200) {
 				var text = body.toString();
 				message.delete().catch(O_o=>{});  
-				message.reply(`
+				message.channel.send(`
 You: `+chat_text+`
 Me : `+text.substring(text.lastIndexOf('<br>')+14));
 			}
