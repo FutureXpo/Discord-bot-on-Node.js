@@ -4,3 +4,5 @@
     clear (число) - очищаю несколько сообщений (до 100) <br />
     help - справка <br />
     invite - <a href = "https://discordapp.com/oauth2/authorize?&client_id=369437586780848128&scope=bot&permissions=8">ссылка</a> на приглашение бота на другой сервер  <br />
+<br /><br />
+<h8>Made by FutureX</h8>
