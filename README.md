@@ -9,6 +9,6 @@
 <br>
 
 <details>
-      <summary><em>Made by FutureX</em></summary>
+      <summary><em>Copyright (c) 2017 FutureX</em></summary>
       <p>При помощи команды <code>chat [фраза]</code> можно пообщаться с ботом. Однако фразу бот понимает только на английском...</p>
 </details>
