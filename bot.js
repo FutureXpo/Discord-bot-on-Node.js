@@ -166,12 +166,12 @@ const commands = {
 		let dispatcher;
 		queue[msg.guild.id].playing = true;
 
-		console.log(queue);
+	//	console.log(queue);
 		(function play(song) {
-			console.log(song);
+	//		console.log(song);
 			if (song === undefined) return msg.channel.sendMessage('Список воспроизведения пуст').then(() => {
-				queue[msg.guild.id].playing = false;
-				msg.member.voiceChannel.leave();
+			//	queue[msg.guild.id].playing = false;
+			//	msg.member.voiceChannel.leave();
 			});
 			msg.channel.sendMessage(`Играет: **${song.title}**`);
 			dispatcher = msg.guild.voiceConnection.playStream(yt(song.url, { audioonly: true }), { passes : process.env.passes });
@@ -192,7 +192,7 @@ const commands = {
 					dispatcher.setVolume(Math.max((dispatcher.volume*50 - (2*(m.content.split('-').length-1)))/50,0));
 					msg.channel.sendMessage(`Громкость: ${Math.round(dispatcher.volume*50)}%`);
 				} else if (m.content.startsWith(process.env.PREFIX + 'time')){
-					msg.channel.sendMessage(`time: ${Math.floor(dispatcher.time / 60000)}:${Math.floor((dispatcher.time % 60000)/1000) <10 ? '0'+Math.floor((dispatcher.time % 60000)/1000) : Math.floor((dispatcher.time % 60000)/1000)}`);
+					msg.channel.sendMessage(`Играет: ${Math.floor(dispatcher.time / 60000)}:${Math.floor((dispatcher.time % 60000)/1000) <10 ? '0'+Math.floor((dispatcher.time % 60000)/1000) : Math.floor((dispatcher.time % 60000)/1000)}`);
 				}
 			});
 			dispatcher.on('end', () => {
@@ -221,7 +221,7 @@ const commands = {
 			if(err) return msg.channel.sendMessage('Invalid YouTube Link: ' + err);
 			if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 			queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
-			msg.channel.sendMessage(`**${info.title}** в очереди`).then(() => commands.play_(msg));
+			msg.channel.sendMessage(`**${info.title}** добавлено в текущий плейлист`).then(() => commands.play_(msg));
 		});
 	},
         'queue': (msg) => {
