@@ -239,7 +239,7 @@ const commands = {
 								url = WATCH_VIDEO_URL+item.id.videoId;
 								if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 								queue[msg.guild.id].songs.push({url: url, title: item.id.title, requester: msg.author.username});
-								msg.channel.sendMessage(`**${info1.title}** __теперь в текущем плейлисте__`).then(() => commands.play_(msg));
+								msg.channel.sendMessage(`**${item.id.title}** __теперь в текущем плейлисте__`).then(() => commands.play_(msg));
 								return;
 							}
 						}
