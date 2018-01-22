@@ -69,7 +69,7 @@ client.on('message', message => {
 	}
 	
 	/*Базовая версия чатбота*/
-	if((command === "chat")&&!(!args.join(" ") || 0 === args.join(" ").length)) {
+	if((command === "chat")&&(!(!args.join(" ") || 0 === args.join(" ").length))) {
 		const chat_text = args.join(" ");
 		var data={
 			'input'  : chat_text,
