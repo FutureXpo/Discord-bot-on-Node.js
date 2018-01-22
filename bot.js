@@ -183,11 +183,11 @@ const commands = {
 					dispatcher.resume();
 				} else if (m.content.startsWith(process.env.PREFIX + 'skip')){
 					msg.channel.sendMessage('Следущая песня').then(() => {dispatcher.end();});
-				} else if (m.content.startsWith('volume+')){
+				} else if (m.content.startsWith(process.env.PREFIX + 'vol+')){
 					if (Math.round(dispatcher.volume*50) >= 100) return msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
 					dispatcher.setVolume(Math.min((dispatcher.volume*50 + (2*(m.content.split('+').length-1)))/50,2));
 					msg.channel.sendMessage(`Громкость: ${Math.round(dispatcher.volume*50)}%`);
-				} else if (m.content.startsWith('volume-')){
+				} else if (m.content.startsWith(process.env.PREFIX + 'vol-')){
 					if (Math.round(dispatcher.volume*50) <= 0) return msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
 					dispatcher.setVolume(Math.max((dispatcher.volume*50 - (2*(m.content.split('-').length-1)))/50,0));
 					msg.channel.sendMessage(`Громкость: ${Math.round(dispatcher.volume*50)}%`);
@@ -221,9 +221,8 @@ const commands = {
 			if(err) return msg.channel.sendMessage('Invalid YouTube Link: ' + err);
 			if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 			queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
-			msg.channel.sendMessage(`**${info.title}** в очереди`);
+			msg.channel.sendMessage(`**${info.title}** в очереди`).then(() => {commands.play_(msg);};
 		});
-		commands.play_(msg);
 	},
         'queue': (msg) => {
 		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Добавьте больше песен в список с помощью команды \'${process.env.PREFIX}play\'`);
