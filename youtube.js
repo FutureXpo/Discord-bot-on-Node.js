@@ -1,6 +1,6 @@
 var request = require('superagent');
 
-const API_KEY = "My API KEY";
+const API_KEY = process.env.YOUTUBE_API_KEY;
 const WATCH_VIDEO_URL = "https://www.youtube.com/watch?v=";
 
 exports.watchVideoUrl = WATCH_VIDEO_URL;
