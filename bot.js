@@ -225,7 +225,7 @@ const commands = {
 		console.log(search(url));
 		yt.getInfo(url, (err, info) => {
 			if(err) {	
-					yt.getInfo(search(url.toString()), (err1, info) => {
+					yt.getInfo(search(url), (err1, info) => {
 						if(err1) return msg.channel.sendMessage('Invalid YouTube Link: ' + err1);
 						if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 						queue[msg.guild.id].songs.push({url: url, title: info1.title, requester: msg.author.username});
@@ -245,11 +245,11 @@ const commands = {
 	}
 };
 
-function search(searchKeywords) {
+function search(var searchKeywords) {
 	var requestUrl = 'https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + escape(searchKeywords) + '&key=' + API_KEY;
   	request1(requestUrl, (error, response) => {
     		if (!error && response.statusCode == 200) {
-      			var body = JSON.stringify(response.body);
+      			var body = response.body;
 			console.log(body);
       			if (body.items.length == 0) {
         			console.log("I Could Not Find Anything!");
