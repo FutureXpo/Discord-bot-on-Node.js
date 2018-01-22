@@ -245,7 +245,7 @@ const commands = {
 	}
 };
 
-function search(searchKeywords) {
+String search(searchKeywords) {
 	var requestUrl = 'https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + escape(searchKeywords) + '&key=' + API_KEY;
   	request1(requestUrl, (error, response) => {
     		if (!error && response.statusCode == 200) {
@@ -256,10 +256,7 @@ function search(searchKeywords) {
       			}
       			for (var item of body.items) {
         			if (item.id.kind == 'youtube#video') {
-					console.log(url);
-					console.log(search(url));
-					console.log(item.id.videoId.toString());
-          				return item.id.videoId;
+          				return WATCH_VIDEO_URL+item.id.videoId;
         			}
       			}
     		} else {
