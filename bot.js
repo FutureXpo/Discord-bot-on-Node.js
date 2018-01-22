@@ -222,7 +222,6 @@ const commands = {
 	'play': (msg) => {
 		let url = msg.content.split(' ')[1];
 		if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${process.env.PREFIX}p`);
-		console.log(search(url));
 		yt.getInfo(url, (err, info) => {
 			if(err) {	
 				var requestUrl = 'https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + escape(url) + '&key=' + API_KEY;
