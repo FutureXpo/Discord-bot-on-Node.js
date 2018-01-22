@@ -220,11 +220,11 @@ const commands = {
 		});
 	},
 	'play': (msg) => {
-		let url = msg.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
+		let url = msg.content.slice(process.env.PREFIX.length).trim().split(/ +/g).join('%20');
 		if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${process.env.PREFIX}p`);
 		yt.getInfo(url, (err, info) => {
 			if(err) {	
-				url = url.split(' ').join('%20');
+			//	url = url.split(' ').join('%20');
 				console.log('https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + url + '&key=' + API_KEY);
 				var requestUrl = 'https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + url + '&key=' + API_KEY;
 				request1(requestUrl, (error, response) => {
