@@ -160,9 +160,9 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 
 const commands = {
 	'play_': (msg) => {
-		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Add some songs to the queue first with ${process.env.PREFIX}p`);
+		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Добавьте больше песен в список с помощью команды \'${process.env.PREFIX}play\'`);
 		if (!msg.guild.voiceConnection) return commands.join(msg).then(() => commands.play_(msg));
-		if (queue[msg.guild.id].playing) return msg.channel.sendMessage('Уже работаю...');
+		if (queue[msg.guild.id].playing) return /*msg.channel.sendMessage('Уже работаю...')*/;
 		let dispatcher;
 		queue[msg.guild.id].playing = true;
 
@@ -180,17 +180,17 @@ const commands = {
 				if (m.content.startsWith(process.env.PREFIX + 'pause')) {
 					msg.channel.sendMessage('Пауза').then(() => {dispatcher.pause();});
 				} else if (m.content.startsWith(process.env.PREFIX + 'play')){
-					msg.channel.sendMessage('Играет').then(() => {dispatcher.resume();});
+					dispatcher.resume();
 				} else if (m.content.startsWith(process.env.PREFIX + 'skip')){
 					msg.channel.sendMessage('Следущая песня').then(() => {dispatcher.end();});
 				} else if (m.content.startsWith('volume+')){
 					if (Math.round(dispatcher.volume*50) >= 100) return msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
 					dispatcher.setVolume(Math.min((dispatcher.volume*50 + (2*(m.content.split('+').length-1)))/50,2));
-					msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
+					msg.channel.sendMessage(`Громкость: ${Math.round(dispatcher.volume*50)}%`);
 				} else if (m.content.startsWith('volume-')){
 					if (Math.round(dispatcher.volume*50) <= 0) return msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
 					dispatcher.setVolume(Math.max((dispatcher.volume*50 - (2*(m.content.split('-').length-1)))/50,0));
-					msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
+					msg.channel.sendMessage(`Громкость: ${Math.round(dispatcher.volume*50)}%`);
 				} else if (m.content.startsWith(process.env.PREFIX + 'time')){
 					msg.channel.sendMessage(`time: ${Math.floor(dispatcher.time / 60000)}:${Math.floor((dispatcher.time % 60000)/1000) <10 ? '0'+Math.floor((dispatcher.time % 60000)/1000) : Math.floor((dispatcher.time % 60000)/1000)}`);
 				}
@@ -200,7 +200,7 @@ const commands = {
 				play(queue[msg.guild.id].songs.shift());
 			});
 			dispatcher.on('error', (err) => {
-				return msg.channel.sendMessage('error: ' + err).then(() => {
+				return msg.channel.sendMessage('Ошибка: ' + err).then(() => {
 					collector.stop();
 					play(queue[msg.guild.id].songs.shift());
 				});
@@ -226,7 +226,7 @@ const commands = {
 		commands.play_(msg);
 	},
         'queue': (msg) => {
-		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Добавьте больше песен в список с помощью команды \'${process.env.PREFIX}add\'`);
+		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Добавьте больше песен в список с помощью команды \'${process.env.PREFIX}play\'`);
 		let tosend = [];
 		queue[msg.guild.id].songs.forEach((song, i) => { tosend.push(`${i+1}. ${song.title} - Добавил : ${song.requester}`);});
 		msg.channel.sendMessage(`__**Список песен в очереди:**__ В очереди **${tosend.length}** песен ${(tosend.length > 15 ? '*[Показаны только следующие 15]*' : '')}\n\`\`\`${tosend.slice(0,15).join('\n')}\`\`\``);
