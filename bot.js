@@ -225,13 +225,31 @@ const commands = {
 		console.log(search(url));
 		yt.getInfo(url, (err, info) => {
 			if(err) {	
-					yt.getInfo(search(url), (err1, info) => {
-						if(err1) return msg.channel.sendMessage('Invalid YouTube Link: ' + err1);
-						if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
-						queue[msg.guild.id].songs.push({url: url, title: info1.title, requester: msg.author.username});
-						msg.channel.sendMessage(`**${info1.title}** __теперь в текущем плейлисте__`).then(() => commands.play_(msg));
-					});
-				}
+				var requestUrl = 'https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + escape(url) + '&key=' + API_KEY;
+				request1(requestUrl, (error, response) => {
+					if (!error && response.statusCode == 200) {
+						var body = response.body;
+						console.log(body);
+						if (body.items.length == 0) {
+							console.log("I Could Not Find Anything!");
+							msg.channel.sendMessage('Invalid YouTube Link: ' + err1);
+							break;
+						}
+						for (var item of body.items) {
+							if (item.id.kind == 'youtube#video') {
+								url = WATCH_VIDEO_URL+item.id.videoId;
+								if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
+								queue[msg.guild.id].songs.push({url: url, title: item.id.title, requester: msg.author.username});
+								msg.channel.sendMessage(`**${info1.title}** __теперь в текущем плейлисте__`).then(() => commands.play_(msg));
+								break;
+							}
+						}
+					} else {
+						console.log("Unexpected error!");
+						return;
+					}
+				});	
+			}
 			if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 			queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
 			msg.channel.sendMessage(`**${info.title}** __теперь в текущем плейлисте__`).then(() => commands.play_(msg));
@@ -244,8 +262,8 @@ const commands = {
 		msg.channel.sendMessage(`__**Плейлист:**__ Музыки в очереди - **${tosend.length}** ${(tosend.length > 7 ? '*[Показаны только следующие 7 песен]*' : '')}\`\`\`\n ${tosend.slice(0,7).join('\n')} \`\`\``);
 	}
 };
-
-function search(var searchKeywords) {
+/*
+function search(searchKeywords) {
 	var requestUrl = 'https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + escape(searchKeywords) + '&key=' + API_KEY;
   	request1(requestUrl, (error, response) => {
     		if (!error && response.statusCode == 200) {
@@ -267,6 +285,6 @@ function search(var searchKeywords) {
   	});
   	return;
 };
-
+*/
 // Инициализация бота
 client.login(process.env.BOT_TOKEN);
