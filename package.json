@@ -11,6 +11,5 @@
     "ytdl-core" :  "github:fent/node-ytdl-core#master",
     "request": "2.81.0",
     "node-opus" : "^0.2.1",
-    "ffmpeg-binaries" : "1.0.0"
   }
 }
