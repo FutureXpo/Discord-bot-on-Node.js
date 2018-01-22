@@ -5,7 +5,7 @@ const client = new Discord.Client();
 client.on('ready', () => {
     console.log('Бот запущен успешно!');
     /*Ставит статус*/
-    client.user.setGame(`какую-то игру`);
+    client.user.setGame(` имитацию жизни`);
 });
 
 client.on('message', message => {
@@ -69,7 +69,7 @@ client.on('message', message => {
 	}
 	
 	/*Базовая версия чатбота*/
-	if(command === "chat") {
+	if(command === "chat")&&(!args.join(" ").isEmpty()) {
 		const chat_text = args.join(" ");
 		var data={
 			'input'  : chat_text,
