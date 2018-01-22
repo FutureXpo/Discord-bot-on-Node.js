@@ -2,12 +2,33 @@ const request = require('request');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+const yt = require('ytdl-core');
+let queue = {};
+
 client.on('ready', () => {
     console.log('Бот запущен успешно!');
     /*Ставит статус*/
     client.user.setGame(` имитацию жизни`);
 });
 
+/*Пишет в чат о том, что человек покинул сервер*/
+client.on('guildMemberAdd', member => {
+	const channel = member.guild.channels.find('name', 'member-log');
+	if (!channel) return;
+	channel.send(`К великому сожалению, нас покинул холоп ${member}((`);
+});
+
+/*Пишет в лог, когда бота добавили насервер*/
+client.on("guildCreate", guild => {
+	console.log(`Меня добавили на сервер: ${guild.name} (id: ${guild.id}). На этом сервере ${guild.memberCount} участников!`);
+});
+
+/*Пишет в лог, когда бота выгнали из чата*/
+client.on("guildDelete", guild => {
+	console.log(`Меня выгнали из: ${guild.name} (id: ${guild.id})`);
+});
+
+/*Выполнение команд*/
 client.on('message', message => {
 	/*Базовая команда*/
 	if (message.content === 'ping') {
@@ -111,23 +132,92 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 		
 		message.delete().catch(O_o=>{});  
 	}*/
-});
+	
+	
+	
+			/* ---Музыкальная часть--- */	
+	
+	/*Играть музыку*/
+	const msg=message;
+	if (command === 'resume') {
+		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Add some songs to the queue first with ${tokens.prefix}add`);
+		if (!msg.guild.voiceConnection) return commands.join(msg).then(() => commands.play(msg));
+		if (queue[msg.guild.id].playing) return msg.channel.sendMessage('Already Playing');
+		let dispatcher;
+		queue[msg.guild.id].playing = true;
 
-/*Пишет в чат о том, что человек покинул сервер*/
-client.on('guildMemberAdd', member => {
-	const channel = member.guild.channels.find('name', 'member-log');
-	if (!channel) return;
-	channel.send(`К великому сожалению, нас покинул холоп ${member}((`);
-});
+		console.log(queue);
+		(function play(song) {
+			console.log(song);
+			if (song === undefined) return msg.channel.sendMessage('Queue is empty').then(() => {
+				queue[msg.guild.id].playing = false;
+				msg.member.voiceChannel.leave();
+			});
+			msg.channel.sendMessage(`Playing: **${song.title}** as requested by: **${song.requester}**`);
+			dispatcher = msg.guild.voiceConnection.playStream(yt(song.url, { audioonly: true }), { passes : tokens.passes });
+			let collector = msg.channel.createCollector(m => m);
+			collector.on('message', m => {
+				if (m.content.startsWith(tokens.prefix + 'pause')) {
+					msg.channel.sendMessage('paused').then(() => {dispatcher.pause();});
+				} else if (m.content.startsWith(tokens.prefix + 'resume')){
+					msg.channel.sendMessage('resumed').then(() => {dispatcher.resume();});
+				} else if (m.content.startsWith(tokens.prefix + 'skip')){
+					msg.channel.sendMessage('skipped').then(() => {dispatcher.end();});
+				} else if (m.content.startsWith('volume+')){
+					if (Math.round(dispatcher.volume*50) >= 100) return msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
+					dispatcher.setVolume(Math.min((dispatcher.volume*50 + (2*(m.content.split('+').length-1)))/50,2));
+					msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
+				} else if (m.content.startsWith('volume-')){
+					if (Math.round(dispatcher.volume*50) <= 0) return msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
+					dispatcher.setVolume(Math.max((dispatcher.volume*50 - (2*(m.content.split('-').length-1)))/50,0));
+					msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
+				} else if (m.content.startsWith(tokens.prefix + 'time')){
+					msg.channel.sendMessage(`time: ${Math.floor(dispatcher.time / 60000)}:${Math.floor((dispatcher.time % 60000)/1000) <10 ? '0'+Math.floor((dispatcher.time % 60000)/1000) : Math.floor((dispatcher.time % 60000)/1000)}`);
+				}
+			});
+			dispatcher.on('end', () => {
+				collector.stop();
+				play(queue[msg.guild.id].songs.shift());
+			});
+			dispatcher.on('error', (err) => {
+				return msg.channel.sendMessage('error: ' + err).then(() => {
+					collector.stop();
+					play(queue[msg.guild.id].songs.shift());
+				});
+			});
+		})(queue[msg.guild.id].songs.shift());
+	}
+	
+	/*Отправляет ссылку для добавления бота в другой чат*/
+	if (command === 'join'||command === "подключись") {
+		return new Promise((resolve, reject) => {
+			const voiceChannel = msg.member.voiceChannel;
+			if (!voiceChannel || voiceChannel.type !== 'voice') return msg.reply('I couldn\'t connect to your voice channel...');
+			voiceChannel.join().then(connection => resolve(connection)).catch(err => reject(err));
+		});
+	}
+	
+	/*Отправляет ссылку для добавления бота в другой чат*/
+	if (command === 'play'||command === "p") {
+		let url = msg.content.split(' ')[1];
+		if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${tokens.prefix}add`);
+		yt.getInfo(url, (err, info) => {
+			if(err) return msg.channel.sendMessage('Invalid YouTube Link: ' + err);
+			if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
+			queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
+			msg.channel.sendMessage(`added **${info.title}** to the queue`);
+		});
 
-/*Пишет в лог, когда бота добавили насервер*/
-client.on("guildCreate", guild => {
-	console.log(`Меня добавили на сервер: ${guild.name} (id: ${guild.id}). На этом сервере ${guild.memberCount} участников!`);
-});
-
-/*Пишет в лог, когда бота выгнали из чата*/
-client.on("guildDelete", guild => {
-	console.log(`Меня выгнали из: ${guild.name} (id: ${guild.id})`);
+	}
+	
+	/*Отправляет ссылку для добавления бота в другой чат*/
+	if (command === 'queue'||command === "q") {
+		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Add some songs to the queue first with ${tokens.prefix}add`);
+		let tosend = [];
+		queue[msg.guild.id].songs.forEach((song, i) => { tosend.push(`${i+1}. ${song.title} - Requested by: ${song.requester}`);});
+		msg.channel.sendMessage(`__**${msg.guild.name}'s Music Queue:**__ Currently **${tosend.length}** songs queued ${(tosend.length > 15 ? '*[Only next 15 shown]*' : '')}\n\`\`\`${tosend.slice(0,15).join('\n')}\`\`\``);
+	}
+	
 });
 
 // Инициализация бота
