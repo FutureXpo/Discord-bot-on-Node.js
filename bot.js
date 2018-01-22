@@ -138,7 +138,7 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 			/* ---Музыкальная часть--- */	
 	
 	/*Играть музыку*/
-	const msg=message;
+/*	const msg=message;
 	if (command === 'resume') {
 		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Add some songs to the queue first with ${tokens.prefix}add`);
 		if (!msg.guild.voiceConnection) return commands.join(msg).then(() => commands.play(msg));
@@ -186,19 +186,19 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 				});
 			});
 		})(queue[msg.guild.id].songs.shift());
-	}
+	}*/
 	
 	/*Отправляет ссылку для добавления бота в другой чат*/
-	if (command === 'join'||command === "подключись") {
+/*	if (command === 'join'||command === "подключись") {
 		return new Promise((resolve, reject) => {
 			const voiceChannel = msg.member.voiceChannel;
 			if (!voiceChannel || voiceChannel.type !== 'voice') return msg.reply('I couldn\'t connect to your voice channel...');
 			voiceChannel.join().then(connection => resolve(connection)).catch(err => reject(err));
 		});
-	}
+	}*/
 	
 	/*Отправляет ссылку для добавления бота в другой чат*/
-	if (command === 'play'||command === "p") {
+/*	if (command === 'play'||command === "p") {
 		let url = msg.content.split(' ')[1];
 		if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${tokens.prefix}add`);
 		yt.getInfo(url, (err, info) => {
@@ -208,15 +208,15 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 			msg.channel.sendMessage(`added **${info.title}** to the queue`);
 		});
 
-	}
+	}*/
 	
 	/*Отправляет ссылку для добавления бота в другой чат*/
-	if (command === 'queue'||command === "q") {
+/*	if (command === 'queue'||command === "q") {
 		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Add some songs to the queue first with ${tokens.prefix}add`);
 		let tosend = [];
 		queue[msg.guild.id].songs.forEach((song, i) => { tosend.push(`${i+1}. ${song.title} - Requested by: ${song.requester}`);});
 		msg.channel.sendMessage(`__**${msg.guild.name}'s Music Queue:**__ Currently **${tosend.length}** songs queued ${(tosend.length > 15 ? '*[Only next 15 shown]*' : '')}\n\`\`\`${tosend.slice(0,15).join('\n')}\`\`\``);
-	}
+	}*/
 	
 });
 
