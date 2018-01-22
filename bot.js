@@ -249,7 +249,8 @@ function search(searchKeywords) {
 	var requestUrl = 'https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + escape(searchKeywords) + '&key=' + API_KEY;
   	request1(requestUrl, (error, response) => {
     		if (!error && response.statusCode == 200) {
-      			var body = response.body;
+      			var body = JSON.stringify(response.body);
+			console.log(body);
       			if (body.items.length == 0) {
         			console.log("I Could Not Find Anything!");
         			return;
