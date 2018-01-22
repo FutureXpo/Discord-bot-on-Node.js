@@ -233,7 +233,7 @@ const commands = {
 						if (body.items.length == 0) {
 							console.log("I Could Not Find Anything!");
 							msg.channel.sendMessage('Invalid YouTube Link: ' + err1);
-							break;
+							return;
 						}
 						for (var item of body.items) {
 							if (item.id.kind == 'youtube#video') {
@@ -241,7 +241,7 @@ const commands = {
 								if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 								queue[msg.guild.id].songs.push({url: url, title: item.id.title, requester: msg.author.username});
 								msg.channel.sendMessage(`**${info1.title}** __теперь в текущем плейлисте__`).then(() => commands.play_(msg));
-								break;
+								return;
 							}
 						}
 					} else {
