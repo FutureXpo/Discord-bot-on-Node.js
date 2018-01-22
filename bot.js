@@ -170,8 +170,8 @@ const commands = {
 		(function play(song) {
 	//		console.log(song);
 			if (song === undefined) return msg.channel.sendMessage('Список воспроизведения пуст').then(() => {
-			//	queue[msg.guild.id].playing = false;
-			//	msg.member.voiceChannel.leave();
+				queue[msg.guild.id].playing = false;
+				msg.member.voiceChannel.leave();
 			});
 			msg.channel.sendMessage(`Играет: **${song.title}**`);
 			dispatcher = msg.guild.voiceConnection.playStream(yt(song.url, { audioonly: true }), { passes : process.env.passes });
@@ -182,7 +182,7 @@ const commands = {
 				} else if (m.content.startsWith(process.env.PREFIX + 'play')){
 					dispatcher.resume();
 				} else if (m.content.startsWith(process.env.PREFIX + 'skip')){
-					msg.channel.sendMessage('Следущая песня').then(() => {dispatcher.end();});
+					msg.channel.sendMessage('~~**${song.title}**~~').then(() => {dispatcher.end();});
 				} else if (m.content.startsWith(process.env.PREFIX + 'vol+')){
 					if (Math.round(dispatcher.volume*50) >= 100) return msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
 					dispatcher.setVolume(Math.min((dispatcher.volume*50 + (2*(m.content.split('+').length-1)))/50,2));
@@ -221,14 +221,14 @@ const commands = {
 			if(err) return msg.channel.sendMessage('Invalid YouTube Link: ' + err);
 			if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 			queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
-			msg.channel.sendMessage(`**${info.title}** добавлено в текущий плейлист`).then(() => commands.play_(msg));
+			msg.channel.sendMessage(`**${info.title}** __теперь в текущем плейлисте__`).then(() => commands.play_(msg));
 		});
 	},
         'queue': (msg) => {
 		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Добавьте больше песен в список с помощью команды \'${process.env.PREFIX}play\'`);
 		let tosend = [];
 		queue[msg.guild.id].songs.forEach((song, i) => { tosend.push(`${i+1}. ${song.title} - Добавил : ${song.requester}`);});
-		msg.channel.sendMessage(`__**Список песен в очереди:**__ В очереди **${tosend.length}** песен ${(tosend.length > 15 ? '*[Показаны только следующие 15]*' : '')}\n\`\`\`${tosend.slice(0,15).join('\n')}\`\`\``);
+		msg.channel.sendMessage(`__**Список песен в очереди:**__ В очереди **${tosend.length}** песен ${(tosend.length > 15 ? '*[Показаны только следующие 15]*' : '')}\n\`\`\`/n${tosend.slice(0,15).join('\n')}\`\`\``);
 	}
 };
 
