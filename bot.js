@@ -256,6 +256,9 @@ function search(searchKeywords) {
       			}
       			for (var item of body.items) {
         			if (item.id.kind == 'youtube#video') {
+					console.log(url);
+					console.log(search(url));
+					console.log(item.id.videoId.toString());
           				return item.id.videoId;
         			}
       			}
