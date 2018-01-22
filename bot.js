@@ -224,8 +224,8 @@ const commands = {
 		if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${process.env.PREFIX}p`);
 		yt.getInfo(url, (err, info) => {
 			if(err) {	
-				url = url.split(' ').join('+');
-				console.log('https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + url.split(' ').join('+') + '&key=' + API_KEY);
+			//	url = url.split(' ').join('+');
+				console.log('https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + url + '&key=' + API_KEY);
 				var requestUrl = 'https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + url + '&key=' + API_KEY;
 				request1(requestUrl, (error, response) => {
 					if (!error && response.statusCode == 200) {
