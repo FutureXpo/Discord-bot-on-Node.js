@@ -222,14 +222,15 @@ const commands = {
 	'play': (msg) => {
 		let url = msg.content.split(' ')[1];
 		if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${process.env.PREFIX}p`);
+		console.log(search(url));
 		yt.getInfo(url, (err, info) => {
 			if(err) {	
-					yt.getInfo(search(url), (err1, info) => {
+				/*	yt.getInfo(search(url), (err1, info) => {
 						if(err1) return msg.channel.sendMessage('Invalid YouTube Link: ' + err1);
 						if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 						queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
 						msg.channel.sendMessage(`**${info.title}** __теперь в текущем плейлисте__`).then(() => commands.play_(msg));
-					});
+					});*/
 				}
 			if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 			queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
