@@ -142,7 +142,7 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 //	if (commands.hasOwnProperty(msg.content.toLowerCase().slice(process.env.PREFIX.length).split(' ')[0])) commands[msg.content.toLowerCase().slice(process.env.PREFIX.length).split(' ')[0]](msg);
 	
 	/*Играет песню*/
-	if (command === 'play'||command === "p"||command === "add") {
+	if ((command === 'play'||command === "p"||command === "add")&&(!(!args.join(" ") || 0 === args.join(" ").length))) {
 		commands.play(msg);
 	}
 	
@@ -221,7 +221,7 @@ const commands = {
 			if(err) return msg.channel.sendMessage('Invalid YouTube Link: ' + err);
 			if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 			queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
-			msg.channel.sendMessage(`**${info.title}** в очереди`).then(() => {commands.play_(msg);};
+			msg.channel.sendMessage(`**${info.title}** в очереди`).then(() => commands.play_(msg));
 		});
 	},
         'queue': (msg) => {
