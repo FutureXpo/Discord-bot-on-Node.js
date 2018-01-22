@@ -231,14 +231,15 @@ const commands = {
 						console.log(body);
 						if (body.items.length == 0) {
 							console.log("I Could Not Find Anything!");
-							msg.channel.sendMessage('Invalid YouTube Link: ' + err1);
+							msg.channel.sendMessage('Invalid YouTube Link: ' + err);
 							return;
 						}
 						for (var item of body.items) {
 							if (item.id.kind == 'youtube#video') {
 								url = WATCH_VIDEO_URL+item.id.videoId;
+								var name = item.id.title;
 								if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
-								queue[msg.guild.id].songs.push({url: url, title: item.id.title, requester: msg.author.username});
+								queue[msg.guild.id].songs.push({url: url, title: name, requester: msg.author.username});
 								msg.channel.sendMessage(`**${item.id.title}** __теперь в текущем плейлисте__`).then(() => commands.play_(msg));
 								return;
 							}
@@ -259,32 +260,9 @@ const commands = {
 		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Добавьте больше песен в список с помощью команды \'${process.env.PREFIX}play\'`);
 		let tosend = [];
 		queue[msg.guild.id].songs.forEach((song, i) => { tosend.push(`${i+1}. ${song.title} - Добавил : ${song.requester}`);});
-		msg.channel.sendMessage(`__**Плейлист:**__ Музыки в очереди - **${tosend.length}** ${(tosend.length > 7 ? '*[Показаны только следующие 7 песен]*' : '')}\`\`\`\n ${tosend.slice(0,7).join('\n')} \`\`\``);
+		msg.channel.sendMessage(`__**Плейлист:**__ Песен в очереди - **${tosend.length}** ${(tosend.length > 7 ? '*[Показаны только следующие 7 песен]*' : '')}\`\`\`\n ${tosend.slice(0,7).join('\n')} \`\`\``);
 	}
 };
-/*
-function search(searchKeywords) {
-	var requestUrl = 'https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + escape(searchKeywords) + '&key=' + API_KEY;
-  	request1(requestUrl, (error, response) => {
-    		if (!error && response.statusCode == 200) {
-      			var body = response.body;
-			console.log(body);
-      			if (body.items.length == 0) {
-        			console.log("I Could Not Find Anything!");
-        			return;
-      			}
-      			for (var item of body.items) {
-        			if (item.id.kind == 'youtube#video') {
-          				return WATCH_VIDEO_URL+item.id.videoId;
-        			}
-      			}
-    		} else {
-      			console.log("Unexpected error!");
-     			return;
-    		}
-  	});
-  	return;
-};
-*/
+
 // Инициализация бота
 client.login(process.env.BOT_TOKEN);
