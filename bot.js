@@ -146,7 +146,7 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 const commands = {
 	'play_': (msg) => {
 		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Add some songs to the queue first with ${process.env.PREFIX}p`);
-		if (!msg.guild.voiceConnection) return commands.join(msg).then(() => commands.play(msg));
+		if (!msg.guild.voiceConnection) return commands.join(msg).then(() => commands.play_(msg));
 		if (queue[msg.guild.id].playing) return msg.channel.sendMessage('Уже работаю...');
 		let dispatcher;
 		queue[msg.guild.id].playing = true;
@@ -199,7 +199,9 @@ const commands = {
 			voiceChannel.join().then(connection => resolve(connection)).catch(err => reject(err));
 		});
 	},
-	'p','add','play': (msg) => {
+	'p':
+	'add':
+	'play': (msg) => {
 		let url = msg.content.split(' ')[1];
 		if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${process.env.PREFIX}p`);
 		yt.getInfo(url, (err, info) => {
@@ -208,9 +210,10 @@ const commands = {
 			queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
 			msg.channel.sendMessage(`**${info.title}** в очереди`);
 		});
-		if (!msg.guild.voiceConnection) return commands.join(msg).then(() => commands.play(msg));
+		if (!msg.guild.voiceConnection) return commands.join(msg).then(() => commands.play_(msg));
 	},
-	'q','queue': (msg) => {
+	'q':
+        'queue': (msg) => {
 		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Добавьте больше песен в список с помощью команды \'${process.env.PREFIX}add\'`);
 		let tosend = [];
 		queue[msg.guild.id].songs.forEach((song, i) => { tosend.push(`${i+1}. ${song.title} - Добавил : ${song.requester}`);});
