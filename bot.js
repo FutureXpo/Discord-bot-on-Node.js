@@ -229,7 +229,7 @@ const commands = {
 						if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 						queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
 						msg.channel.sendMessage(`**${info.title}** __теперь в текущем плейлисте__`).then(() => commands.play_(msg));
-					}
+					});
 				}
 			if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 			queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
