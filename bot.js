@@ -225,7 +225,7 @@ const commands = {
 		console.log(search(url));
 		yt.getInfo(url, (err, info) => {
 			if(err) {	
-					yt.getInfo(search(url), (err1, info) => {
+					yt.getInfo(search(url.toString()), (err1, info) => {
 						if(err1) return msg.channel.sendMessage('Invalid YouTube Link: ' + err1);
 						if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 						queue[msg.guild.id].songs.push({url: url, title: info1.title, requester: msg.author.username});
