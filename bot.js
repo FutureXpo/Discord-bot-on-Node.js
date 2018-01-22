@@ -245,7 +245,7 @@ const commands = {
 	}
 };
 
-String search(searchKeywords) {
+function search(searchKeywords) {
 	var requestUrl = 'https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + escape(searchKeywords) + '&key=' + API_KEY;
   	request1(requestUrl, (error, response) => {
     		if (!error && response.statusCode == 200) {
