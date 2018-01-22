@@ -146,12 +146,12 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 		commands.play(msg);
 	}
 	
-	/*Возвращает пинг бота*/
+	/*Возвращает список песен*/
 	if (command === 'queue'||command === "q"||command === "список") {
 		commands.queue(msg);
 	}
 	
-	/*Возвращает пинг бота*/
+	/*Подключается к голосовому чату*/
 	if (command === 'join') {
 		commands.join(msg);
 	}
@@ -223,7 +223,7 @@ const commands = {
 			queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
 			msg.channel.sendMessage(`**${info.title}** в очереди`);
 		});
-		if (!msg.guild.voiceConnection) return commands.join(msg).then(() => commands.play_(msg));
+		commands.play_(msg);
 	},
         'queue': (msg) => {
 		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Добавьте больше песен в список с помощью команды \'${process.env.PREFIX}add\'`);
