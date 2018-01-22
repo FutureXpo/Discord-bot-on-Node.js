@@ -139,7 +139,22 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 	
 	/*Играть музыку*/
 	const msg=message;
-	if (commands.hasOwnProperty(msg.content.toLowerCase().slice(process.env.PREFIX.length).split(' ')[0])) commands[msg.content.toLowerCase().slice(process.env.PREFIX.length).split(' ')[0]](msg);
+//	if (commands.hasOwnProperty(msg.content.toLowerCase().slice(process.env.PREFIX.length).split(' ')[0])) commands[msg.content.toLowerCase().slice(process.env.PREFIX.length).split(' ')[0]](msg);
+	
+	/*Играет песню*/
+	if (command === 'play'||command === "p"||command === "add") {
+		commands.play(msg);
+	}
+	
+	/*Возвращает пинг бота*/
+	if (command === 'queue'||command === "q"||command === "список") {
+		commands.queue(msg);
+	}
+	
+	/*Возвращает пинг бота*/
+	if (command === 'join') {
+		commands.join(msg);
+	}
 	
 });
 
@@ -163,11 +178,11 @@ const commands = {
 			let collector = msg.channel.createCollector(m => m);
 			collector.on('message', m => {
 				if (m.content.startsWith(process.env.PREFIX + 'pause')) {
-					msg.channel.sendMessage('paused').then(() => {dispatcher.pause();});
+					msg.channel.sendMessage('Пауза').then(() => {dispatcher.pause();});
 				} else if (m.content.startsWith(process.env.PREFIX + 'play')){
-					msg.channel.sendMessage('resumed').then(() => {dispatcher.resume();});
+					msg.channel.sendMessage('Играет').then(() => {dispatcher.resume();});
 				} else if (m.content.startsWith(process.env.PREFIX + 'skip')){
-					msg.channel.sendMessage('skipped').then(() => {dispatcher.end();});
+					msg.channel.sendMessage('Следущая песня').then(() => {dispatcher.end();});
 				} else if (m.content.startsWith('volume+')){
 					if (Math.round(dispatcher.volume*50) >= 100) return msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
 					dispatcher.setVolume(Math.min((dispatcher.volume*50 + (2*(m.content.split('+').length-1)))/50,2));
@@ -199,8 +214,6 @@ const commands = {
 			voiceChannel.join().then(connection => resolve(connection)).catch(err => reject(err));
 		});
 	},
-	'p':
-	'add':
 	'play': (msg) => {
 		let url = msg.content.split(' ')[1];
 		if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${process.env.PREFIX}p`);
@@ -212,7 +225,6 @@ const commands = {
 		});
 		if (!msg.guild.voiceConnection) return commands.join(msg).then(() => commands.play_(msg));
 	},
-	'q':
         'queue': (msg) => {
 		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Добавьте больше песен в список с помощью команды \'${process.env.PREFIX}add\'`);
 		let tosend = [];
