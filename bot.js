@@ -228,7 +228,7 @@ const commands = {
 		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Добавьте больше песен в список с помощью команды \'${process.env.PREFIX}play\'`);
 		let tosend = [];
 		queue[msg.guild.id].songs.forEach((song, i) => { tosend.push(`${i+1}. ${song.title} - Добавил : ${song.requester}`);});
-		msg.channel.sendMessage(`__**Список песен в очереди:**__ В очереди **${tosend.length}** песен ${(tosend.length > 15 ? '*[Показаны только следующие 15]*' : '')}\n\`\`\`\_\_\*\*Плейлист:\*\*\_\_\n ${tosend.slice(0,15).join('\n')}\`\`\``);
+		msg.channel.sendMessage(`__**Плейлист:**__ Музыки в очереди - **${tosend.length}** ${(tosend.length > 7 ? '*[Показаны только следующие 7 песен]*' : '')}\n\`\`\`\n ${tosend.slice(0,7).join('\n')}\`\`\``);
 	}
 };
 
