@@ -224,11 +224,12 @@ const commands = {
 		if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${process.env.PREFIX}p`);
 		yt.getInfo(url, (err, info) => {
 			if(err) {	
+				console.log('https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + escape(url) + '&key=' + API_KEY);
 				var requestUrl = 'https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + escape(url) + '&key=' + API_KEY;
 				request1(requestUrl, (error, response) => {
 					if (!error && response.statusCode == 200) {
 						var body = response.body;
-						console.log(body);
+					//	console.log(body);
 						if (body.items.length == 0) {
 							console.log("I Could Not Find Anything!");
 							msg.channel.sendMessage('Invalid YouTube Link: ' + err);
