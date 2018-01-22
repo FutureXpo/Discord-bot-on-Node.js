@@ -225,7 +225,7 @@ const commands = {
 		yt.getInfo(url, (err, info) => {
 			if(err) {	
 				url = url.split(' ').join('+');
-				console.log('https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + url.split(' ').join('+'); + '&key=' + API_KEY);
+				console.log('https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + url.split(' ').join('+') + '&key=' + API_KEY);
 				var requestUrl = 'https://www.googleapis.com/youtube/v3/search' + '?part=snippet&q=' + url + '&key=' + API_KEY;
 				request1(requestUrl, (error, response) => {
 					if (!error && response.statusCode == 200) {
