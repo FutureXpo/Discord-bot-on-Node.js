@@ -220,7 +220,7 @@ const commands = {
 		});
 	},
 	'play': (msg) => {
-		let arg = msg.content.slice(process.env.PREFIX.length).trim().split(/ +/g).shift().toLowerCase();
+		let arg = msg.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
 		arg.shift().toLowerCase();
 		let url = arg.join('%20');
 		if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${process.env.PREFIX}p`);
