@@ -178,7 +178,7 @@ const commands = {
 				queue[msg.guild.id].playing = false;
 				msg.member.voiceChannel.leave();
 			});
-			msg.channel.sendMessage(`Играет: **${song.title}**`);
+			msg.channel.sendMessage(`Играет: ** ${song.title} **`);
 			dispatcher = msg.guild.voiceConnection.playStream(yt(song.url, { audioonly: true }), { passes : process.env.passes });
 			let collector = msg.channel.createCollector(m => m);
 			collector.on('message', m => {
@@ -187,7 +187,7 @@ const commands = {
 				} else if (m.content.startsWith(process.env.PREFIX + 'play')){
 					dispatcher.resume();
 				} else if (m.content.startsWith(process.env.PREFIX + 'skip')){
-					msg.channel.sendMessage('~~**${song.title}**~~').then(() => {dispatcher.end();});
+					msg.channel.sendMessage('~~**$Пропущена песня**~~').then(() => {dispatcher.end();});
 				} else if (m.content.startsWith(process.env.PREFIX + 'vol+')){
 					if (Math.round(dispatcher.volume*50) >= 100) return msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
 					dispatcher.setVolume(Math.min((dispatcher.volume*50 + (2*(m.content.split('+').length-1)))/50,2));
@@ -220,7 +220,9 @@ const commands = {
 		});
 	},
 	'play': (msg) => {
-		let url = msg.content.slice(process.env.PREFIX.length).trim().split(/ +/g).join('%20');
+		let arg = msg.content.slice(process.env.PREFIX.length).trim().split(/ +/g).shift().toLowerCase();
+		arg.shift().toLowerCase();
+		let url = arg.join('%20');
 		if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${process.env.PREFIX}p`);
 		yt.getInfo(url, (err, info) => {
 			if(err) {	
