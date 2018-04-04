@@ -22,9 +22,7 @@ exports.talk = {
 	usage: "[Текст]",
 	description: "Общаться с ботом!",
 	process: function(bot,msg,suffix){
-		const args = msg.content.slice(Config.commandPrefix).trim().split(/ +/g);
-		const command = args.shift().toLowerCase();
-		const chat_text = args.join(" ");
+		const chat_text = suffix;
 		console.log(chat_text);
 		var data={
 			'input'  : chat_text,
@@ -52,14 +50,11 @@ exports.clear = {
 	usage: "[Число]",
 	description: "Очищает до 100 сообщенией",
 	process: function(bot,msg,suffix){
-		console.log(msg+" ____ "+suffix)
-		const args = msg.content.slice(Config.commandPrefix.length).trim().split(/ +/g);
-		const command = args.shift().toLowerCase();
-		if (msg.content===Config.commandPrefix+command)
+		if (suffix==='')
 			return msg.channel.fetchMessages({limit: 100})
 				.then(messages => messages.deleteAll())
 				.catch(console.error);
-		const deleteCount = parseInt(args[0], 10)+1;
+		const deleteCount = parseInt(suffix)+1;
 		if(!deleteCount || deleteCount < 2 || deleteCount > 100)
 			return msg.reply("Пожалуйста, используйте число от 1 до 99. Иначе слишком сложнаааа...");
 		return msg.channel.fetchMessages({limit: deleteCount})

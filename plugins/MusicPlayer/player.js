@@ -13,7 +13,7 @@ exports.commands = [
 let options = false;
 	let PREFIX = (options && options.prefix) || '!';
 	let GLOBAL_QUEUE = (options && options.global) || false;
-	let MAX_QUEUE_SIZE = (options && options.maxQueueSize) || 1500;
+	let MAX_QUEUE_SIZE = (options && options.maxQueueSize) || 150;
 	// Create an object of queues.
 	let queues = {};
 
@@ -41,7 +41,6 @@ exports.play = {
 	usage: "[Поисковый запрос или ссылка на видео]",
 	description: "Проигрывает звук в голосовом чате",
 	process :function(client, msg, suffix, isEdit){
-		console.log(msg+" ____ "+suffix)
 		if(isEdit) return;
 		var arr = msg.guild.channels.filter((v)=>v.type == "voice").filter((v)=>v.members.has(msg.author.id));
 		// Make sure the user is in a voice channel.
