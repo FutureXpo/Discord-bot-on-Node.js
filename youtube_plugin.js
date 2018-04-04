@@ -2,9 +2,6 @@ var util = require('util');
 var youtube_node = require('youtube-node');
 	
 	var AuthDetails = {
-		'client_id':process.env.BOT_ID,
-		'bot_token':process.env.BOT_TOKEN,
-		'wolfram_api_key':process.env.WOLFRAM_API_KEY,
 		'youtube_api_key':process.env.YOUTUBE_API_KEY
 		};
 

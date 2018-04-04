@@ -7,7 +7,7 @@ exports.commands = [
 ]
 
 exports.create = {
-	usage: "<Название>",
+	usage: "[Название]",
 	description: "Создает текстовый канал с заданным именем",
 	process: function(bot,msg,suffix) {
 		msg.channel.guild.createChannel(suffix,"text").then(function(channel) {
@@ -26,7 +26,7 @@ process: function(bot,msg) {
 },
 
 exports.voice = {
-	usage: "<Название>",
+	usage: "[Название]",
 	description: "Создает голосовой канал с заданным именем",
 	process: function(bot,msg,suffix) {
 		msg.channel.guild.createChannel(suffix,"voice").then(function(channel) {
@@ -39,7 +39,7 @@ exports.voice = {
 },
 
 exports["delete"] = {
-	usage: "<Название>",
+	usage: "[Название]",
 	description: "Удаляет выбранный канал",
 	process: function(bot,msg,suffix) {
 		var channel = bot.channels.get(suffix);

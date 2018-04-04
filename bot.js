@@ -15,19 +15,12 @@ try {
 }
 console.log("Starting DiscordBot\nNode version: " + process.version + "\nDiscord.js version: " + Discord.version);
 
-/*const client_id = process.env.BOT_ID;
-const bot_token = process.env.BOT_TOKEN;
-const wolfram_api_key = process.env.WOLFRAM_API_KEY;
-const youtube_api_key = process.env.YOUTUBE_API_KEY;*/
-
 // Get authentication data
 try {
 	var AuthDetails = {
 		'client_id':process.env.BOT_ID,
-		'bot_token':process.env.BOT_TOKEN,
-		'wolfram_api_key':process.env.WOLFRAM_API_KEY,
-		'youtube_api_key':process.env.YOUTUBE_API_KEY
-		};//require("./auth.json");
+		'bot_token':process.env.BOT_TOKEN
+		};
 } catch (e){
 	console.log("Please create an auth.json like auth.json.example with a bot token or an email and password.\n"+e.stack);
 	process.exit();
@@ -102,26 +95,26 @@ try{
 
 var commands = {	
 	"alias": {
-		usage: "<name> <actual command>",
-		description: "Creates command aliases. Useful for making simple commands on the fly",
+		usage: "[Имя] [Текущая комана]",
+		description: "Можно упростить запуск команд бота",
 		process: function(bot,msg,suffix) {
 			var args = suffix.split(" ");
 			var name = args.shift();
 			if(!name){
 				msg.channel.send(Config.commandPrefix + "alias " + this.usage + "\n" + this.description);
 			} else if(commands[name] || name === "help"){
-				msg.channel.send("overwriting commands with aliases is not allowed!");
+				msg.channel.send("!");
 			} else {
 				var command = args.shift();
 				aliases[name] = [command, args.join(" ")];
 				//now save the new alias
 				require("fs").writeFile("./alias.json",JSON.stringify(aliases,null,2), null);
-				msg.channel.send("created alias " + name);
+				msg.channel.send("Создана комада " + name);
 			}
 		}
 	},
 	"aliases": {
-		description: "lists all recorded aliases",
+		description: "Выводит все добавленные команды",
 		process: function(bot, msg, suffix) {
 			var text = "current aliases:\n";
 			for(var a in aliases){
@@ -132,41 +125,27 @@ var commands = {
 		}
 	},
     "ping": {
-        description: "responds pong, useful for checking if bot is alive",
+        description: "Отвечает если бот онлайн",
         process: function(bot, msg, suffix) {
             msg.channel.send( msg.author+" pong!");
             if(suffix){
-                msg.channel.send( "note that !ping takes no arguments!");
+                msg.channel.send( "Не надо ничего писать кроме ping!");
             }
         }
     },
-    "idle": {
-		usage: "[status]",
-        description: "sets bot status to idle",
-        process: function(bot,msg,suffix){ 
-	    bot.user.setStatus("idle").then(console.log).catch(console.error);
-	}
-    },
-    "online": {
-		usage: "[status]",
-        description: "sets bot status to online",
-        process: function(bot,msg,suffix){ 
-	    bot.user.setStatus("online").then(console.log).catch(console.error);
-	}
-    },
-    "say": {
-        usage: "<message>",
-        description: "bot says message",
+    "text": {
+        usage: "[Текст]",
+        description: "Бот говорит вашу фразу",
         process: function(bot,msg,suffix){ msg.channel.send(suffix);}
     },
-	"announce": {
-        usage: "<message>",
-        description: "bot says message with text to speech",
+	"say": {
+        usage: "[Текст]",
+        description: "Бот произносит вашу фразу",
         process: function(bot,msg,suffix){ msg.channel.send(suffix,{tts:true});}
     },
 	"msg": {
-		usage: "<user> <message to leave user>",
-		description: "leaves a message for a user the next time they come online",
+		usage: "[Никнейм] [Сообщение]",
+		description: "Оставляет сообщение пользователю до того момента, как он будет онлайн",
 		process: function(bot,msg,suffix) {
 			var args = suffix.split(' ');
 			var user = args.shift();
@@ -180,15 +159,15 @@ var commands = {
 			}
 			messagebox[target.id] = {
 				channel: msg.channel.id,
-				content: target + ", " + msg.author + " said: " + message
+				content: target + ", " + msg.author + " передал сообщение: " + message
 			};
 			updateMessagebox();
-			msg.channel.send("message saved.")
+			msg.channel.send("Сообщение сохранено.")
 		}
 	},
 	"eval": {
-		usage: "<command>",
-		description: 'Executes arbitrary javascript in the bot process. User must have "eval" permission',
+		usage: "[Команда]",
+		description: 'Выполняет javascript код в программе бота(только для разработчика)',
 		process: function(bot,msg,suffix) {
 			if(Permissions.checkPermission(msg.author,"eval")){
 				let result = eval(suffix,bot).toString();
@@ -196,7 +175,7 @@ var commands = {
 					msg.channel.send(result);
 				}
 			} else {
-				msg.channel.send( msg.author + " doesn't have permission to execute eval!");
+				msg.channel.send( msg.author + " у вас отсутствуют права на запуск!");
 			}
 		}
 	}
@@ -204,7 +183,7 @@ var commands = {
 
 if(AuthDetails.hasOwnProperty("client_id")){
 	commands["invite"] = {
-		description: "generates an invite link you can use to invite the bot to your server",
+		description: "Создает ссылку для приглашения бота на свой сервер",
 		process: function(bot,msg,suffix){
 			msg.channel.send("invite link: https://discordapp.com/oauth2/authorize?&client_id=" + AuthDetails.client_id + "&scope=bot&permissions=470019135");
 		}
@@ -323,7 +302,7 @@ function checkMessageForCommand(msg, isEdit) {
 				try{
 					cmd.process(bot,msg,suffix,isEdit);
 				} catch(e){
-					var msgTxt = "command " + cmdTxt + " failed :(";
+					var msgTxt = "Запуск команды " + cmdTxt + " провалился :(";
 					if(Config.debug){
 						 msgTxt += "\n" + e.stack;
 						 console.log(msgTxt);
@@ -334,10 +313,10 @@ function checkMessageForCommand(msg, isEdit) {
 					msg.channel.send(msgTxt);
 				}
 			} else {
-				msg.channel.send("You are not allowed to run " + cmdTxt + "!");
+				msg.channel.send("Нет прав для запуска команды " + cmdTxt + "!");
 			}
 		} else {
-			msg.channel.send(cmdTxt + " not recognized as a command!").then((message => message.delete(5000)))
+			msg.channel.send(cmdTxt + " Такой команды не существует!").then((message => message.delete(5000)))
 		}
 	} else {
 		//message isn't a command or is from us
@@ -347,7 +326,7 @@ function checkMessageForCommand(msg, isEdit) {
         }
 
         if (msg.author != bot.user && msg.isMentioned(bot.user)) {
-                msg.channel.send("yes?"); //using a mention here can lead to looping
+                msg.channel.send("Вы уверены?"); //using a mention here can lead to looping
         } else {
 
 				}

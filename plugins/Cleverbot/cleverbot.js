@@ -7,7 +7,7 @@ talkbot = new cleverbot;
 cleverbot.prepare(function() {});
 
 exports.talk = {
-    usage: "<сообщение>",
+    usage: "[сообщение]",
     description: "ѕоговорить с ботом",
     process: function(bot, msg, suffix) {
         var conv = suffix.split(" ");

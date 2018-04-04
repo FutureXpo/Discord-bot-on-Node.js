@@ -1,10 +1,7 @@
 var Wolfram = require('node-wolfram');
 	
 	var AuthDetails = {
-		'client_id':process.env.BOT_ID,
-		'bot_token':process.env.BOT_TOKEN,
-		'wolfram_api_key':process.env.WOLFRAM_API_KEY,
-		'youtube_api_key':process.env.YOUTUBE_API_KEY
+		'wolfram_api_key':process.env.WOLFRAM_API_KEY
 		};
 
 function WolframPlugin () {

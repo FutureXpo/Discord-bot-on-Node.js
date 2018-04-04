@@ -1,10 +1,7 @@
 var Wolfram = require('node-wolfram');
 
 	var AuthDetails = {
-		'client_id':process.env.BOT_ID,
-		'bot_token':process.env.BOT_TOKEN,
-		'wolfram_api_key':process.env.WOLFRAM_API_KEY,
-		'youtube_api_key':process.env.YOUTUBE_API_KEY
+		'wolfram_api_key':process.env.WOLFRAM_API_KEY
 		};
 
 function WolframPlugin () {
@@ -17,7 +14,7 @@ WolframPlugin.prototype.respond = function (query, channel, bot,tmpMsg) {
 				console.log(error);
 				tmpMsg.edit("Couldn't talk to Wolfram Alpha :(")
 			} else {
-				console.log(JSON.stringify(result));
+			//	console.log(JSON.stringify(result));
 				var response = "";
 				if(result.queryresult.$.success == "true"){
 					tmpMsg.delete();

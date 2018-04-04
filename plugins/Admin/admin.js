@@ -14,7 +14,7 @@ exports.setUsername = {
 }
 
 exports.log = {
-	usage: "<сообщение>",
+	usage: "[Cообщение]",
 	description: "Пишет сообщение в консоли бота",
 	process: function(bot,msg,suffix){console.log(msg.content);}
 }
