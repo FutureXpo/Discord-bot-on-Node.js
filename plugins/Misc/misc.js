@@ -41,3 +41,22 @@ Me : `+text.substring(text.lastIndexOf('<br>')+14));
 		})
 	}
 }
+
+exports.clear = {
+	usage: "[Число]",
+	description: "Очищает до 100 сообщенией",
+	process: function(bot,msg,suffix){
+		const args = msg.content.slice(Config.commandPrefix.length).trim().split(/ +/g);
+		const command = args.shift().toLowerCase();
+		if (msg.content===Config.commandPrefix+command)
+			return msg.channel.fetchMessages({limit: 100})
+				.then(messages => messages.deleteAll())
+				.catch(console.error);
+		const deleteCount = parseInt(args[0], 10)+1;
+		if(!deleteCount || deleteCount < 2 || deleteCount > 100)
+			return msg.reply("Пожалуйста, используйте число от 1 до 99. Иначе слишком сложнаааа...");
+		return msg.channel.fetchMessages({limit: deleteCount})
+			.then(messages => messages.deleteAll())
+			.catch(console.error);
+	}
+}

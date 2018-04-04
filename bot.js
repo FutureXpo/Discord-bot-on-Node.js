@@ -65,7 +65,7 @@ try{
 	Config = require("./config.json");
 } catch(e){ //no config file, use defaults
 	Config.debug = false;
-	Config.commandPrefix = '!';
+	Config.commandPrefix = '=';
 	try{
 		if(fs.lstatSync("./config.json").isFile()){
 			console.log("WARNING: config.json found but we couldn't read it!\n" + e.stack);
@@ -181,7 +181,7 @@ if(AuthDetails.hasOwnProperty("client_id")){
 	commands["invite"] = {
 		description: "Создает ссылку для приглашения бота на свой сервер",
 		process: function(bot,msg,suffix){
-			msg.channel.send("invite link: https://discordapp.com/oauth2/authorize?&client_id=" + AuthDetails.client_id + "&scope=bot&permissions=470019135");
+			msg.channel.send("invite link: https://discordapp.com/oauth2/authorize?&client_id=" + AuthDetails.client_id + "&scope=bot&permissions=8");
 		}
 	}
 }
