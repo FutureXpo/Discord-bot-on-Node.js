@@ -1,3 +1,5 @@
+var request = require("request");
+
 exports.commands = [
 //	"watchtogether",
 	"talk",

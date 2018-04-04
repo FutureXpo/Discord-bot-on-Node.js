@@ -115,9 +115,10 @@ exports.skip = {
 
 		// Resume and stop playing.
 		if (voiceConnection.player.dispatcher) voiceConnection.player.dispatcher.resume();
-		if(queue.length>1)
-			voiceConnection.player.dispatcher.end();
-		msg.channel.sendMessage( wrap('Пропущена песня: ' + toSkip + '!'));
+		if(queue.length>0){
+			voiceConnection.player.dispatcher.end().catch(console.error);
+			msg.channel.sendMessage( wrap('Пропущена песня'));
+		}
 	}
 }
 
@@ -139,7 +140,7 @@ exports.queue = {
 		)).join('\n');
 
 		// Get the status of the queue.
-		let queueStatus = 'Stopped';
+		let queueStatus = 'Остановлен';
 		const voiceConnection = client.voiceConnections.get(msg.guild.id);
 		if (voiceConnection !== null && voiceConnection != undefined) {
 			queueStatus = voiceConnection.paused ? 'Остановлен' : 'Играет';
