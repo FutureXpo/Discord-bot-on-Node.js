@@ -42,6 +42,7 @@ exports.talk = {
 You: `+chat_text+`
 Me : `+text.substring(text.lastIndexOf('<br>')+14));
 			}
+			if(error) console.error(error);
 		})
 	}
 }
