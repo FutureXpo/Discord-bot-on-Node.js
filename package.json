@@ -27,6 +27,7 @@
     "urban": "^0.3.1",
     "wikijs": "^0.1.4",
     "youtube-dl": "^1.11.1"
+	"youtube-node": "1.2.x"
   },
   "main": "bot.js"
 }
