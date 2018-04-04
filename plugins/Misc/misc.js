@@ -1,6 +1,7 @@
 exports.commands = [
-	"watchtogether",
-	"talk"
+//	"watchtogether",
+//	"talk"
+	"clear"
 ]
 
 //Простые команды
