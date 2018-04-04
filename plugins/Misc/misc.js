@@ -21,6 +21,9 @@ exports.talk = {
 	usage: "[Текст]",
 	description: "Общаться с ботом!",
 	process: function(bot,msg,suffix){
+		const args = msg.content.slice(Config.commandPrefix.length).trim().split(/ +/g);
+		const command = args.shift().toLowerCase();
+		const chat_text = args.join(" ");
 		var data={
 			'input'  : chat_text,
 			'botcust2' : 'e5b0bfbd9e35edae'
@@ -30,6 +33,7 @@ exports.talk = {
 			method: 'POST',
 			form: data
 		}
+		if(!(!args.join(" ") || 0 === args.join(" ").length))
 		request(options, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
 				var text = body.toString();
