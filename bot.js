@@ -19,7 +19,7 @@ console.log("Starting DiscordBot\nNode version: " + process.version + "\nDiscord
 var AuthDetails = {
 	'client_id':process.env.BOT_ID,
 	'bot_token':process.env.BOT_TOKEN
-	};
+};
 
 
 // Load custom permissions
