@@ -38,9 +38,9 @@ let options = false;
 	 * @param suffix Command suffix.
 	 */
 exports.play = {
-		usage: "[Поисковый запрос или ссылка на видео]",
-		description: "Проигрывает звук в голосовом чате",
-		process :function(client, msg, suffix, isEdit){
+	usage: "[Поисковый запрос или ссылка на видео]",
+	description: "Проигрывает звук в голосовом чате",
+	process :function(client, msg, suffix, isEdit){
 		if(isEdit) return;
 		var arr = msg.guild.channels.filter((v)=>v.type == "voice").filter((v)=>v.members.has(msg.author.id));
 		// Make sure the user is in a voice channel.
@@ -68,6 +68,7 @@ exports.play = {
 			YoutubeDL.getInfo(suffix, ['-q', '--no-warnings', '--force-ipv4'], (err, info) => {
 				// Verify the info.
 				if (err || info.format_id === undefined || info.format_id.startsWith('0')) {
+					console.error(err);
 					return response.edit( wrap('Произошла ошибка!'));
 				}
 
