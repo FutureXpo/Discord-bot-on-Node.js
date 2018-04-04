@@ -96,6 +96,7 @@ exports.play = {
 exports.skip = {
 	description: "Пропустить песню",
 	process:function(client, msg, suffix) {
+		console.log(msg+" ____ "+suffix)
 		// Get the voice connection.
 		const voiceConnection = client.voiceConnections.get(msg.guild.id);
 		if (voiceConnection === null) return msg.channel.sendMessage( wrap('Музыка сейчас не играет.'));
@@ -115,8 +116,8 @@ exports.skip = {
 
 		// Resume and stop playing.
 		if (voiceConnection.player.dispatcher) voiceConnection.player.dispatcher.resume();
-		voiceConnection.player.dispatcher.end();
-
+		if(queue.length>0)
+			voiceConnection.player.dispatcher.end();
 		msg.channel.sendMessage( wrap('Пропущена песня: ' + toSkip + '!'));
 	}
 }
