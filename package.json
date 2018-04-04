@@ -4,7 +4,7 @@
   "description": "Bot for Discord app",
   "author": "",
   "scripts": {
-    "start": "node discord_bot.js"
+    "start": "node bot.js"
   },
   "dependencies": {
     "cleverbot-node": "^0.2.8",
@@ -28,5 +28,5 @@
     "wikijs": "^0.1.4",
     "youtube-dl": "^1.11.1"
   },
-  "main": "discord_bot.js"
+  "main": "bot.js"
 }
