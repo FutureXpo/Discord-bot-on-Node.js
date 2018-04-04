@@ -1,6 +1,6 @@
 exports.commands = [
 //	"watchtogether",
-//	"talk"
+	"talk",
 	"clear"
 ]
 
@@ -52,6 +52,7 @@ exports.clear = {
 	usage: "[Число]",
 	description: "Очищает до 100 сообщенией",
 	process: function(bot,msg,suffix){
+		console.log(msg+" ____ "+suffix)
 		const args = msg.content.slice(Config.commandPrefix.length).trim().split(/ +/g);
 		const command = args.shift().toLowerCase();
 		if (msg.content===Config.commandPrefix+command)
