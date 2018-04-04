@@ -21,9 +21,10 @@ exports.talk = {
 	usage: "[Текст]",
 	description: "Общаться с ботом!",
 	process: function(bot,msg,suffix){
-		const args = msg.content.slice(Config.commandPrefix.length).trim().split(/ +/g);
+		const args = msg.content.slice(Config.commandPrefix).trim().split(/ +/g);
 		const command = args.shift().toLowerCase();
 		const chat_text = args.join(" ");
+		console.log(chat_text);
 		var data={
 			'input'  : chat_text,
 			'botcust2' : 'e5b0bfbd9e35edae'
@@ -41,8 +42,7 @@ exports.talk = {
 				msg.channel.send(`
 You: `+chat_text+`
 Me : `+text.substring(text.lastIndexOf('<br>')+14));
-			}
-			if(error) console.error(error);
+			} else console.error(error);
 		})
 	}
 }
