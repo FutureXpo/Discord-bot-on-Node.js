@@ -1,6 +1,0 @@
-{
-  "main": "twitch.js",
-  "dependencies": {
-    "request": "2.x.x"
-  }
-}

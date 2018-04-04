@@ -7,21 +7,21 @@ exports.commands = [
 var startTime = Date.now();
 
 exports.setUsername = {
-	description: "sets the username of the bot. Note this can only be done twice an hour!",
+	description: "Установить имя боту. Работает не чаще двух раз в час!",
 	process: function(bot,msg,suffix) {
 		bot.user.setUsername(suffix);
 	}
 }
 
 exports.log = {
-	usage: "<log message>",
-	description: "logs message to bot console",
+	usage: "<сообщение>",
+	description: "Пишет сообщение в консоли бота",
 	process: function(bot,msg,suffix){console.log(msg.content);}
 }
 
 exports.uptime = {
 	usage: "",
-	description: "returns the amount of time since the bot started",
+	description: "Говорит сколько времени работает бот с последнего запуска",
 	process: function(bot,msg,suffix){
 		var now = Date.now();
 		var msec = now - startTime;
@@ -35,17 +35,17 @@ exports.uptime = {
 		var secs = Math.floor(msec / 1000);
 		var timestr = "";
 		if(days > 0) {
-			timestr += days + " days ";
+			timestr += days + " д. ";
 		}
 		if(hours > 0) {
-			timestr += hours + " hours ";
+			timestr += hours + " ч. ";
 		}
 		if(mins > 0) {
-			timestr += mins + " minutes ";
+			timestr += mins + " м. ";
 		}
 		if(secs > 0) {
-			timestr += secs + " seconds ";
+			timestr += secs + " с. ";
 		}
-		msg.channel.send("**Uptime**: " + timestr);
+		msg.channel.send("**Время работы**: " + timestr);
 	}
 }

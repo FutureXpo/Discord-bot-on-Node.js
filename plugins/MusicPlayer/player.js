@@ -13,7 +13,7 @@ exports.commands = [
 let options = false;
 	let PREFIX = (options && options.prefix) || '!';
 	let GLOBAL_QUEUE = (options && options.global) || false;
-	let MAX_QUEUE_SIZE = (options && options.maxQueueSize) || 20;
+	let MAX_QUEUE_SIZE = (options && options.maxQueueSize) || 1500;
 	// Create an object of queues.
 	let queues = {};
 
@@ -38,27 +38,27 @@ let options = false;
 	 * @param suffix Command suffix.
 	 */
 exports.play = {
-		usage: "<search terms|URL>",
-		description: "Plays the given video in the user's voice channel. Supports YouTube and many others: http://rg3.github.io/youtube-dl/supportedsites.html",
+		usage: "[Поисковый запрос или ссылка на видео]",
+		description: "Проигрывает звук в голосовом чате",
 		process :function(client, msg, suffix, isEdit){
 		if(isEdit) return;
 		var arr = msg.guild.channels.filter((v)=>v.type == "voice").filter((v)=>v.members.has(msg.author.id));
 		// Make sure the user is in a voice channel.
-		if (arr.length == 0) return msg.channel.sendMessage( wrap('You\'re not in a voice channel.'));
+		if (arr.length == 0) return msg.channel.sendMessage( wrap('Вы должны находиться в голосовом чате чтобы включить музыку'));
 
 		// Make sure the suffix exists.
-		if (!suffix) return msg.channel.sendMessage( wrap('No video specified!'));
+		if (!suffix) return msg.channel.sendMessage( wrap('Введите название или ссылку на видео'));
 
 		// Get the queue.
 		const queue = getQueue(msg.guild.id);
 
 		// Check if the queue has reached its maximum size.
 		if (queue.length >= MAX_QUEUE_SIZE) {
-			return msg.channel.sendMessage( wrap('Maximum queue size reached!'));
+			return msg.channel.sendMessage( wrap('Слишком много запросов!'));
 		}
 
 		// Get the video information.
-		msg.channel.sendMessage( wrap('Searching...')).then(response => {
+		msg.channel.sendMessage( wrap('Поиск...')).then(response => {
 			// If the suffix doesn't start with 'http', assume it's a search.
 			if (!suffix.toLowerCase().startsWith('http')) {
 				suffix = 'gvsearch1:' + suffix;
@@ -68,11 +68,11 @@ exports.play = {
 			YoutubeDL.getInfo(suffix, ['-q', '--no-warnings', '--force-ipv4'], (err, info) => {
 				// Verify the info.
 				if (err || info.format_id === undefined || info.format_id.startsWith('0')) {
-					return response.edit( wrap('Invalid video!'));
+					return response.edit( wrap('Произошла ошибка!'));
 				}
 
 				// Queue the video.
-				response.edit( wrap('Queued: ' + info.title)).then((resp) => {
+				response.edit( wrap('В очередь добавлено: ' + info.title)).then((resp) => {
 					queue.push(info);
 
 					// Play if only one element in the queue.
@@ -93,11 +93,11 @@ exports.play = {
 	 * @param suffix Command suffix.
 	 */
 exports.skip = {
-	description: "skips to the next song in the playback queue",
+	description: "Пропустить песню",
 	process:function(client, msg, suffix) {
 		// Get the voice connection.
 		const voiceConnection = client.voiceConnections.get(msg.guild.id);
-		if (voiceConnection === null) return msg.channel.sendMessage( wrap('No music being played.'));
+		if (voiceConnection === null) return msg.channel.sendMessage( wrap('Музыка сейчас не играет.'));
 
 		// Get the queue.
 		const queue = getQueue(msg.guild.id);
@@ -116,7 +116,7 @@ exports.skip = {
 		if (voiceConnection.player.dispatcher) voiceConnection.player.dispatcher.resume();
 		voiceConnection.player.dispatcher.end();
 
-		msg.channel.sendMessage( wrap('Skipped ' + toSkip + '!'));
+		msg.channel.sendMessage( wrap('Пропущена песня: ' + toSkip + '!'));
 	}
 }
 
@@ -127,7 +127,7 @@ exports.skip = {
 	 * @param suffix Command suffix.
 	 */
 exports.queue = {
-	description: "prints the current music queue for this server",
+	description: "Выводит список песен",
 	process: function(client, msg, suffix) {
 		// Get the queue.
 		const queue = getQueue(msg.guild.id);
@@ -141,11 +141,11 @@ exports.queue = {
 		let queueStatus = 'Stopped';
 		const voiceConnection = client.voiceConnections.get(msg.guild.id);
 		if (voiceConnection !== null && voiceConnection != undefined) {
-			queueStatus = voiceConnection.paused ? 'Paused' : 'Playing';
+			queueStatus = voiceConnection.paused ? 'Остановлен' : 'Играет';
 		}
 
 		// Send the queue and status.
-		msg.channel.sendMessage( wrap('Queue (' + queueStatus + '):\n' + text));
+		msg.channel.sendMessage( wrap('Список песен (' + queueStatus + '):\n' + text));
 	}
 }
 
@@ -156,24 +156,24 @@ exports.queue = {
 	 * @param suffix Command suffix.
 	 */
 exports.dequeue = {
-	description: "Dequeues the given song index from the song queue.  Use the queue command to get the list of songs in the queue.",
+	description: "Убиарет песню из списка по номеру.",
 	process: function(client, msg, suffix) {
 		// Define a usage string to print out on errors
-		const usageString = 'The format is "!dequeue <index>".  Use !queue to find the indices of each song in the queue.';
+		const usageString = 'Использовать команду так: !dequeue <номер>. Используйте список песен чтобы выбрать интересующую вас.';
 		
 		// Get the queue.
 		const queue = getQueue(msg.guild.id);
 
 		// Make sure the suffix exists.
 		if (!suffix)
-			return msg.channel.sendMessage( wrap('You need to specify an index to remove from the queue.  ' + usageString));
+			return msg.channel.sendMessage( wrap('Нужно ввести номер песни.  ' + usageString));
 
 		// Get the arguments
 		var split = suffix.split(/(\s+)/);
 
 		// Make sure there's only 1 index 
 		if (split.length > 1)
-			return msg.channel.sendMessage( wrap('There are too many arguments.  ' + usageString));
+			return msg.channel.sendMessage( wrap('Нужно ввести только номер песни.  ' + usageString));
 		
 		// Remove the index
 		var index = parseInt(split[0]);
@@ -195,14 +195,14 @@ exports.dequeue = {
 					queue.splice(index, 1);
 				}				
 			} else {
-				return msg.channel.sendMessage( wrap('The index is out of range.  ' + usageString));
+				return msg.channel.sendMessage( wrap('Проверьте, правильно лы вы выбрали номер песни.  ' + usageString));
 			}
 		} else {
-			return msg.channel.sendMessage( wrap('That index isn\'t a number.  ' + usageString));
+			return msg.channel.sendMessage( wrap('Проверьте, правильно лы вы написали номер песни.  ' + usageString));
 		}
 		
 		// Send the queue and status.
-		msg.channel.sendMessage( wrap('Removed \'' + songRemoved + '\' (index ' + split[0] + ') from the queue.'));
+		msg.channel.sendMessage( wrap('Убрана песня \'' + songRemoved + '\' из очереди.'));
 	}
 }
 
@@ -213,14 +213,14 @@ exports.dequeue = {
 	 * @param suffix Command suffix.
 	 */
 exports.pause = {
-	description: "pauses music playback",
+	description: "Остановить проигрывание",
 	process: function(client, msg, suffix) {
 		// Get the voice connection.
 		const voiceConnection = client.voiceConnections.get(msg.guild.id);
-		if (voiceConnection == null) return msg.channel.sendMessage( wrap('No music being played.'));
+		if (voiceConnection == null) return msg.channel.sendMessage( wrap('Список проигрывания пуст.'));
 
 		// Pause.
-		msg.channel.sendMessage( wrap('Playback paused.'));
+		msg.channel.sendMessage( wrap('Пауза'));
 		if (voiceConnection.player.dispatcher) voiceConnection.player.dispatcher.pause();
 	}
 }
@@ -232,14 +232,14 @@ exports.pause = {
 	 * @param suffix Command suffix.
 	 */
 exports.resume = {
-	description: "resumes music playback",
+	description: "Продолжить проигрывание",
 	process: function(client, msg, suffix) {
 		// Get the voice connection.
 		const voiceConnection = client.voiceConnections.get(msg.guild.id);
-		if (voiceConnection == null) return msg.channel.sendMessage( wrap('No music being played.'));
+		if (voiceConnection == null) return msg.channel.sendMessage( wrap('Список проигрывания пуст.'));
 
 		// Resume.
-		msg.channel.sendMessage( wrap('Playback resumed.'));
+		msg.channel.sendMessage( wrap('Проигрывается.'));
 		if (voiceConnection.player.dispatcher) voiceConnection.player.dispatcher.resume();
 	}
 }
@@ -251,12 +251,12 @@ exports.resume = {
  * @param suffix Command suffix.
  */
 exports.volume = {
-	usage: "<volume|volume%|volume dB>",
-	description: "set music playback volume as a fraction, a percent, or in dB",
+	usage: "[volume|volume%|volume dB]",
+	description: "Устанавливает громкость музыки в численном значении, в процентах, в децибелах",
 	process: function(client, msg, suffix) {
 		// Get the voice connection.
 		const voiceConnection = client.voiceConnections.get(msg.guild.id);
-		if (voiceConnection == null) return msg.channel.sendMessage( wrap('No music being played.'));
+		if (voiceConnection == null) return msg.channel.sendMessage( wrap('Список проигрывания пуст.'));
 		// Set the volume
 		if (voiceConnection.player.dispatcher) {
 			if(suffix == ""){
@@ -289,7 +289,7 @@ exports.volume = {
 function executeQueue(client, msg, queue) {
 		// If the queue is empty, finish.
 		if (queue.length === 0) {
-			msg.channel.sendMessage( wrap('Playback finished.'));
+			msg.channel.sendMessage( wrap('Список проигрывания пуст, покидаю чат...'));
 
 			// Leave the voice channel.
 			const voiceConnection = client.voiceConnections.get(msg.guild.id);
@@ -323,7 +323,7 @@ function executeQueue(client, msg, queue) {
 			const video = queue[0];
 
 			// Play the video.
-			msg.channel.sendMessage( wrap('Now Playing: ' + video.title)).then((cur) => {
+			msg.channel.sendMessage( wrap('Сейчас играет: ' + video.title)).then((cur) => {
 				const dispatcher = connection.playStream(Request(video.url));
 				//dispatcher.then(intent => {
 					dispatcher.on('debug',(i)=>console.log("debug: " + i));

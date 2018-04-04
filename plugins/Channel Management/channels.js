@@ -7,11 +7,11 @@ exports.commands = [
 ]
 
 exports.create = {
-	usage: "<channel name>",
-	description: "creates a new text channel with the given name.",
+	usage: "<Название>",
+	description: "Создает текстовый канал с заданным именем",
 	process: function(bot,msg,suffix) {
 		msg.channel.guild.createChannel(suffix,"text").then(function(channel) {
-			msg.channel.send("created " + channel);
+			msg.channel.send("Создан! " + channel);
 		}).catch(function(error){
 			msg.channel.send("failed to create channel: " + error);
 		});
@@ -19,29 +19,28 @@ exports.create = {
 }
 
 exports.servers = {
-description: "Tells you what servers the bot is in",
+description: "Выводит все коналы бота",
 process: function(bot,msg) {
-	msg.channel.send(`__**${bot.user.username} is currently on the following servers:**__ \n\n${bot.guilds.map(g => `${g.name} - **${g.memberCount} Members**`).join(`\n`)}`, {split: true});
+	msg.channel.send(`__**${bot.user.username} запущен на следующих серверах:**__ \n\n${bot.guilds.map(g => `${g.name} - **${g.memberCount} Members**`).join(`\n`)}`, {split: true});
 }
 },
 
-
-
 exports.voice = {
-	usage: "<channel name>",
-	description: "creates a new voice channel with the give name.",
+	usage: "<Название>",
+	description: "Создает голосовой канал с заданным именем",
 	process: function(bot,msg,suffix) {
 		msg.channel.guild.createChannel(suffix,"voice").then(function(channel) {
-			msg.channel.send("created " + channel.id);
+			msg.channel.send("Создан! " + channel.id);
 			console.log("created " + channel);
 		}).catch(function(error){
 			msg.channel.send("failed to create channel: " + error);
 		});
 	}
 },
+
 exports["delete"] = {
-	usage: "<channel name>",
-	description: "deletes the specified channel",
+	usage: "<Название>",
+	description: "Удаляет выбранный канал",
 	process: function(bot,msg,suffix) {
 		var channel = bot.channels.get(suffix);
 		if(suffix.startsWith('<#')){
@@ -50,7 +49,7 @@ exports["delete"] = {
 		if(!channel){
 			var channels = msg.channel.guild.channels.findAll("name",suffix);
 			if(channels.length > 1){
-				var response = "Multiple channels match, please use id:";
+				var response = "Существует несколько каналов с выбранным именем, выберите один:";
 				for(var i=0;i<channels.length;i++){
 					response += channels[i] + ": " + channels[i].id;
 				}
@@ -59,25 +58,25 @@ exports["delete"] = {
 			}else if(channels.length == 1){
 				channel = channels[0];
 			} else {
-				msg.channel.send( "Couldn't find channel " + suffix + " to delete!");
+				msg.channel.send( "Не могу найти чат " + suffix + " !");
 				return;
 			}
 		}
-		msg.channel.guild.defaultChannel.send("deleting channel " + suffix + " at " +msg.author + "'s request");
+		msg.channel.guild.defaultChannel.send("Удален канал " + suffix + " по запросу " + msg.author);
 		if(msg.channel.guild.defaultChannel != msg.channel){
-			msg.channel.send("deleting " + channel);
+			msg.channel.send("Удаление " + channel);
 		}
 		channel.delete().then(function(channel){
 			console.log("deleted " + suffix + " at " + msg.author + "'s request");
 		}).catch(function(error){
-			msg.channel.send("couldn't delete channel: " + error);
+			msg.channel.send("Не могу удалить чат по следующей причине: " + error);
 		});
 	}
 }
 
 exports.topic = {
-	usage: "[topic]",
-	description: 'Sets the topic for the channel. No topic removes the topic.',
+	usage: "[Текст заголовка]",
+	description: 'Устанавливает заголовок канала. Пустая строка убирает заголовок',
 	process: function(bot,msg,suffix) {
 		msg.channel.setTopic(suffix);
 	}

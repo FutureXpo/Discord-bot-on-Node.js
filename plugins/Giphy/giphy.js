@@ -27,15 +27,10 @@ function get_gif(tags, func) {
 		query += "&tag=" + tags.join('+')
 	}
 
-	//wouldnt see request lib if defined at the top for some reason:\
-	var request = require("request");
-	//console.log(query)
 	request(giphy_config.url + "?" + query, function (error, response, body) {
-		//console.log(arguments)
 		if (error || response.statusCode !== 200) {
 			console.error("giphy: Got error: " + body);
 			console.log(error);
-			//console.log(response)
 		}
 		else {
 			try{
@@ -50,16 +45,16 @@ function get_gif(tags, func) {
 }
 
 exports.giphy = {
-	usage: "<image tags>",
-	description: "returns a random gif from giphy matching the tags passed",
+	usage: "<Тэги>",
+	description: "Возвращает гифку по запросу",
 	process: function(bot, msg, suffix) {
 		var tags = suffix.split(" ");
 		get_gif(tags, function(id) {
 		if (typeof id !== "undefined") {
-			msg.channel.send( "http://media.giphy.com/media/" + id + "/giphy.gif [Tags: " + (tags ? tags : "Random GIF") + "]");
+			msg.channel.send( "http://media.giphy.com/media/" + id + "/giphy.gif [Тэги: " + (tags ? tags : "Random GIF") + "]");
 		}
 		else {
-			msg.channel.send( "Invalid tags, try something different. [Tags: " + (tags ? tags : "Random GIF") + "]");
+			msg.channel.send( "Неудачный запрос, попробуйте другие тэги. [Тэги: " + (tags ? tags : "Random GIF") + "]");
 		}
 		});
 	}

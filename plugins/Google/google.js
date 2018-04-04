@@ -1,5 +1,8 @@
 var request = require("request");
-var AuthDetails = require("../../auth.json");
+	var AuthDetails = {
+		'google_custom_search':process.env.GOOGLE_CUSTOM_SEARCH,
+		'youtube_api_key':process.env.YOUTUBE_API_KEY
+		};
 try {
 	var yt = require("./youtube_plugin");
 	var youtube_plugin = new yt();
@@ -15,11 +18,11 @@ exports.commands = [
 ];
 
 exports.image = {
-	usage: "<search query>",
-	description: "gets the top matching image from google",
+	usage: "[Текст]",
+	description: "Возвращает картинку из гугла по запросу",
 	process: function(bot, msg, args) {
 		if(!AuthDetails || !AuthDetails.youtube_api_key || !AuthDetails.google_custom_search){
-			msg.channel.send("Image search requires both a YouTube API key and a Google Custom Search key!");
+			msg.channel.send("Разработчик бота еще не доделал эту функцию!");
 			return;
 		}
 		//gets us a random result in first 5 pages
@@ -34,12 +37,12 @@ exports.image = {
 			}
 			if(!data){
 				console.log(data);
-				msg.channel.send( "Error:\n" + JSON.stringify(data));
+				msg.channel.send( "Ошибка:\n" + JSON.stringify(data));
 				return;
 			}
 			else if (!data.items || data.items.length == 0){
 				console.log(data);
-				msg.channel.send( "No result for '" + args + "'");
+				msg.channel.send( "Нет результатов по запросу '" + args + "'");
 				return;
 			}
 			var randResult = data.items[0];
@@ -49,11 +52,11 @@ exports.image = {
 }
 
 exports.rimage = {
-	usage: "<search query>",
-	description: "gets a random image matching tags from google",
+	usage: "[Текст]",
+	description: "Возвращает случайную картинку из гугла по запросу",
 	process: function(bot, msg, args) {
 		if(!AuthDetails || !AuthDetails.youtube_api_key || !AuthDetails.google_custom_search){
-			msg.channel.send( "Image search requires both a YouTube API key and a Google Custom Search key!");
+			msg.channel.send( "Разработчик бота еще не доделал эту функцию!");
 			return;
 		}
 		//gets us a random result in first 5 pages
@@ -68,12 +71,12 @@ exports.rimage = {
 			}
 			if(!data){
 				console.log(data);
-				msg.channel.send( "Error:\n" + JSON.stringify(data));
+				msg.channel.send( "Ошибка:\n" + JSON.stringify(data));
 				return;
 			}
 			else if (!data.items || data.items.length == 0){
 				console.log(data);
-				msg.channel.send( "No result for '" + args + "'");
+				msg.channel.send("Нет результатов по запросу: '" + args + "'");
 				return;
 			}
 			var randResult = data.items[Math.floor(Math.random() * data.items.length)];
@@ -83,8 +86,8 @@ exports.rimage = {
 }
 
 exports.ggif = {
-	usage : "<search query>",
-	description : "get random gif matching tags from google",
+	usage : "[Текст]",
+	description : "Возвращает гифку из гугла по запросу",
 	process : function(bot, msg, args) {
 		//gets us a random result in first 5 pages
 		var page = 1 + Math.floor(Math.random() * 5) * 10; //we request 10 items
@@ -98,12 +101,12 @@ exports.ggif = {
 			}
 			if(!data){
 				console.log(data);
-				msg.channel.send( "Error:\n" + JSON.stringify(data));
+				msg.channel.send( "Ошибка:\n" + JSON.stringify(data));
 				return;
 			}
 			else if (!data.items || data.items.length == 0){
 				console.log(data);
-				msg.channel.send( "No result for '" + args + "'");
+				msg.channel.send( "Нет результатов по запросу: '" + args + "'");
 				return;
 			}
 			var randResult = data.items[Math.floor(Math.random() * data.items.length)];
@@ -114,8 +117,8 @@ exports.ggif = {
 }
 
 exports.youtube = {
-	usage: "<video tags>",
-	description: "gets youtube video matching tags",
+	usage: "[Текст]",
+	description: "Выдает видео из ютуба по запросу",
 	process: function(bot,msg,suffix){
 		youtube_plugin.respond(suffix,msg.channel,bot);
 	}

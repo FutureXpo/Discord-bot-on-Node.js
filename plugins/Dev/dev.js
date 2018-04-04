@@ -46,61 +46,50 @@ exports.pullanddeploy = {
 }
 
 exports.version = {
-	description: "returns the git commit this bot is running",
+	description: "Называет текущую версию бота",
 	process: function(bot,msg,suffix) {
-		var commit = require('child_process').spawn('git', ['log','-n','1']);
-		commit.stdout.on('data', function(data) {
-			let str = data.toString();
-			if(str){
-				msg.channel.send(str);
-			}
-		});
-		commit.on('close',function(code) {
-			if( code != 0){
-				msg.channel.send("failed checking git version!");
-			}
-		});
+		msg.channel.send("Текущая версия бота: " + process.env.BOT_VERSION);
 	}
 }
 
 exports.myid = {
-	description: "returns the user id of the sender",
+	description: "Возвращает id человека",
 	process: function(bot,msg){
 		msg.channel.send(msg.author.id);
 	}
 }
 
 exports.userid = {
-	usage: "[user to get id of]",
-	description: "Returns the unique id of a user. This is useful for permissions.",
+	usage: "[Никнейм]",
+	description: "Возвращает id человека ",
 	process: function(bot,msg,suffix) {
 		if(msg.mentions.members.size > 0){
 			if(msg.mentions.members.size > 1){
-				var response = "multiple users found:";
+				var response = "Найдено несколько людей с таким ником:";
 				for(id of msg.mentions.members.keys()){
-					response += "\nThe id of <@" + id + "> is " + id;
+					response += "\nId <@" + id + "> - " + id;
 				}
 				msg.channel.send(response);
 			} else {
 				let id = msg.mentions.members.firstKey();
-				msg.channel.send("\nThe id of <@" + id + "> is " + id);
+				msg.channel.send("\nId <@" + id + "> - " + id);
 			}
 		} else if(suffix){
 			var users = msg.channel.guild.members.filter((member) => member.user.username == suffix).array();
 			if(users.length == 1){
-				msg.channel.send( "The id of " + users[0].user.username + " is " + users[0].user.id)
+				msg.channel.send( "Id " + users[0].user.username + " - " + users[0].user.id)
 			} else if(users.length > 1){
-				var response = "multiple users found:";
+				var response = "Найдено несколько людей с таким ником:";
 				for(var i=0;i<users.length;i++){
 					var user = users[i];
-					response += "\nThe id of <@" + user.id + "> is " + user.id;
+					response += "\nId <@" + user.id + "> - " + user.id;
 				}
 				msg.channel.send(response);
 			} else {
-				msg.channel.send("No user " + suffix + " found!");
+				msg.channel.send("Не найдено людей с ником " + suffix);
 			}
 		} else {
-			msg.channel.send( "The id of " + msg.author + " is " + msg.author.id);
+			msg.channel.send( "Id " + msg.author + " - " + msg.author.id);
 		}
 	}
 }
