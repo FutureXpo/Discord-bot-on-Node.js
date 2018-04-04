@@ -115,10 +115,14 @@ exports.skip = {
 
 		// Resume and stop playing.
 		if (voiceConnection.player.dispatcher) voiceConnection.player.dispatcher.resume();
-		if(queue.length>0){
-			voiceConnection.player.dispatcher.end().catch(console.error);
+		if(queue.length>2){
+			voiceConnection.player.dispatcher.end();
 			msg.channel.sendMessage( wrap('Пропущена песня'));
 		}
+		else{
+			msg.channel.sendMessage( wrap('Послюднюю песню не могу пропустить, решение данной проблемы в процессе поиска...'));
+		}
+		
 	}
 }
 
