@@ -25,7 +25,6 @@ exports.talk = {
 	description: "Общаться с ботом!",
 	process: function(bot,msg,suffix){
 		const chat_text = suffix;
-		console.log(chat_text);
 		var data={
 			'input'  : chat_text,
 			'botcust2' : 'e5b0bfbd9e35edae'
@@ -35,7 +34,7 @@ exports.talk = {
 			method: 'POST',
 			form: data
 		}
-		if(!(!args.join(" ") || 0 === args.join(" ").length))
+		if(!(!chat_text || 0 === chat_text.length))
 		request(options, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
 				var text = body.toString();
