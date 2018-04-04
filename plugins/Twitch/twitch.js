@@ -1,6 +1,12 @@
 var request = require("request");
-var AuthDetails = require("../../auth.json");
 var Discord = require("discord.js");
+
+	var AuthDetails = {
+		'client_id':process.env.BOT_ID,
+		'bot_token':process.env.BOT_TOKEN,
+		'wolfram_api_key':process.env.WOLFRAM_API_KEY,
+		'youtube_api_key':process.env.YOUTUBE_API_KEY
+		};
 
 exports.commands = [
     "twitch_user",
