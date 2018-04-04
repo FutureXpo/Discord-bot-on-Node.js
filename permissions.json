@@ -4,8 +4,8 @@
 		"pullanddeploy": false
 	},
 	"users":{
-		"userid":{
-			"eval": false,
+		"356504532198359042":{
+			"eval": true,
 			"pullanddeploy": true
 		}
 	}

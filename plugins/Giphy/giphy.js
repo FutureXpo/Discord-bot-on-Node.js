@@ -45,7 +45,7 @@ function get_gif(tags, func) {
 }
 
 exports.giphy = {
-	usage: "<Тэги>",
+	usage: "[Текст]",
 	description: "Возвращает гифку по запросу",
 	process: function(bot, msg, suffix) {
 		var tags = suffix.split(" ");

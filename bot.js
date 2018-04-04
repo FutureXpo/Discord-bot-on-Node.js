@@ -16,15 +16,11 @@ try {
 console.log("Starting DiscordBot\nNode version: " + process.version + "\nDiscord.js version: " + Discord.version);
 
 // Get authentication data
-try {
-	var AuthDetails = {
-		'client_id':process.env.BOT_ID,
-		'bot_token':process.env.BOT_TOKEN
-		};
-} catch (e){
-	console.log("Please create an auth.json like auth.json.example with a bot token or an email and password.\n"+e.stack);
-	process.exit();
-}
+var AuthDetails = {
+	'client_id':process.env.BOT_ID,
+	'bot_token':process.env.BOT_TOKEN
+	};
+
 
 // Load custom permissions
 var dangerousCommands = ["eval","pullanddeploy","setUsername"];

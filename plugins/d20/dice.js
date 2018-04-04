@@ -5,7 +5,7 @@ exports.commands = [
 var d20 = require('d20')
 
 exports.roll = {
-	usage: "<Число>",
+	usage: "[Число]",
 	description: "Выдает случайное число",
 	process: function(bot,msg,suffix) {
 		if (suffix.split("d").length <= 1) {
