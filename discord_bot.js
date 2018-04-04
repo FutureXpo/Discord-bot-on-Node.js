@@ -15,14 +15,19 @@ try {
 }
 console.log("Starting DiscordBot\nNode version: " + process.version + "\nDiscord.js version: " + Discord.version);
 
-const client_id = process.env.BOT_ID;
+/*const client_id = process.env.BOT_ID;
 const bot_token = process.env.BOT_TOKEN;
 const wolfram_api_key = process.env.WOLFRAM_API_KEY;
-const youtube_api_key = process.env.YOUTUBE_API_KEY;
+const youtube_api_key = process.env.YOUTUBE_API_KEY;*/
 
 // Get authentication data
 try {
-	var AuthDetails = require("./auth.json");
+	var AuthDetails = {
+		'client_id':process.env.BOT_ID,
+		'bot_token':process.env.BOT_TOKEN,
+		'wolfram_api_key':process.env.WOLFRAM_API_KEY,
+		'youtube_api_key':process.env.YOUTUBE_API_KEY
+		};//require("./auth.json");
 } catch (e){
 	console.log("Please create an auth.json like auth.json.example with a bot token or an email and password.\n"+e.stack);
 	process.exit();
