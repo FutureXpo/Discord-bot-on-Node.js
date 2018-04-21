@@ -1,9 +1,4 @@
-# Packages
 node_modules/
-
-# Log files
-logs/
-*.log
-
-# Miscellaneous
-.vscode/
+bwd/provider/
+providers/
+config.json

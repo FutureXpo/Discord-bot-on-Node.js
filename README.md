@@ -1,35 +1,35 @@
-# Music-Bot
-> Simple music bot with a full-blown queue system that is easy to understand
 
-## Install
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cdfdf0081ea4438e86ea6971a021d6b0)](https://www.codacy.com/app/kyranet/Sneyra?utm_source=github.com&utm_medium=referral&utm_content=kyranet/Sneyra&utm_campaign=badger)
 
-```bash
-npm i
+# Sneyra
+
+Sneyra is a music bot (yeah, another bot in this world) built on top of [Klasa](https://github.com/dirigeants/klasa/), and uses [Discord.js](https://github.com/hydrabolt/discord.js) to connect to the Discord API.
+
+## Features
+
+- All basic music bot commands, included skip prompting (based on the 40% of users connected to the voice channel, after 4 users).
+- An echo command, because, why not?
+- Clean code, easy to modify. Fully modular and classbased.
+- Full Music Handler interface and caching, make sure she replies 'smartly'!
+
+## Requirements
+
+- `git` command line ([Windows](https://git-scm.com/download/win)|[Linux](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)|[MacOS](https://git-scm.com/download/mac)) installed
+- `node` [Version 8.1.0 or higher](https://nodejs.org)
+- `ffmpeg`: `npm install --global ffmpeg-binaries`
+- `node-opus`: `npm install node-opus` (alternatively you can use opusscript, but it's very bad for production, has memoryleaks and stream/quality issues).
+- A **good** network connection.
+
+## Downloading
+
+In a command prompt in your projects folder (wherever that may be) run the following:
+
+```
+git clone https://github.com/kyranet/Sneyra
 ```
 
-## Usage
+Once finished:
 
-Edit the config.js file:
-
-```js
-exports.TOKEN = ''; // Your token here
-
-exports.PREFIX = 'm!'; // Your preferred prefix here
-
-exports.GOOGLE_API_KEY = ''; // Your youtube/google API key here
-```
-
-## Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
-
-## Author
-
-**Music-Bot** © [iCrawl](https://github.com/iCrawl), Released under the [MIT](https://github.com/iCrawl/Music-Bot/blob/master/LICENSE) License.<br>
-Authored and maintained by iCrawl.
-
-> GitHub [@iCrawl](https://github.com/iCrawl) · Twitter [@iCrawlToGo](https://twitter.com/iCrawlToGo)
+- In the folder from where you ran the git command, run `cd Sneyra` and then run `npm install`
+- Rename `config.json.example` to `config.json`
+- Edit `config.json` and enter your bot token and the YouTube Search API token.

@@ -1,33 +1,19 @@
 {
-  "name": "yumeko",
-  "version": "0.1.0",
-  "description": "A simple discord bot",
-  "main": "bot.js",
+  "name": "sneyra",
+  "version": "1.1.0",
+  "description": "Extension of Skyra - Music-only bot.",
+  "main": "index.js",
   "scripts": {
-    "test": "",
-	"start": "node bot.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "discord",
-    "bot",
-    "discordbot"
-  ],
-  "author": "iCrawl",
+  "author": "kyraNET",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^11.1.0",
-    "opusscript": "0.0.3",
-    "simple-youtube-api": "^3.0.0",
-    "ytdl-core": "^0.16.0"
-  },
-  "devDependencies": {
-    "eslint": "^4.0.0",
-    "eslint-config-aqua": "^1.0.0"
-  },
-  "eslintConfig": {
-    "extends": "aqua",
-    "rules": {
-      "no-console": 0
-    }
+    "discord.js": "github:discordjs/discord.js",
+    "ffmpeg-binaries": "^3.2.2",
+    "fs-nextra": "^0.3.2",
+    "klasa": "github:dirigeants/klasa",
+    "node-opus": "^0.2.7",
+    "ytdl-core": "^0.18.7"
   }
 }
