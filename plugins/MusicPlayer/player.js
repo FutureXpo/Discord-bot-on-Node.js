@@ -75,7 +75,7 @@ exports.play = {
 				// Queue the video.
 				response.edit( wrap('В очередь добавлено: ' + info.title)).then((resp) => {
 					queue.push(info);
-
+					resp.channel.sendMessage( wrap(info));
 					// Play if only one element in the queue.
 					if (queue.length === 1) {
 						executeQueue(client, msg, queue);
