@@ -1,54 +1,32 @@
 {
-  "name": "discord-music-bot",
-  "version": "1.0.0",
-  "description": "Discord music bot based on discord.js & discord.js-commando",
-  "main": "bot.js",
+  "name": "yumeko",
+  "version": "0.1.0",
+  "description": "A simple discord bot",
+  "main": "MusicBot.js",
   "scripts": {
-    "prod": "node ./bot.js",
-    "debug": "node --inspect-brk=127.0.0.1:8080 ./bot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mindaugaskasp/discord-music-bot.git"
+    "test": ""
   },
   "keywords": [
     "discord",
-    "music",
     "bot",
-    "voip",
-    "commando",
-    "mit",
-    "open",
-    "source",
-    "guide",
-    "bot",
-    "how",
-    "to",
-    "do",
-    "code"
+    "discordbot"
   ],
-  "author": "Mindaugas Kasparavičius",
+  "author": "iCrawl",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mindaugaskasp/discord-music-bot/issues"
-  },
-  "homepage": "https://github.com/mindaugaskasp/discord-music-bot#readme",
   "dependencies": {
-    "bufferutil": "^3.0.2",
-    "discord.js": "^11.2.1",
-    "discord.js-commando": "github:Gawdl3y/discord.js-commando#11.2",
-    "fluent-ffmpeg": "^2.1.2",
-    "moment": "^2.19.1",
-    "node-opus": "^0.2.7",
-    "prism-media": "github:hydrabolt/prism-media",
-    "promised-io": "^0.3.5",
-    "sqlite": "^2.8.0",
-    "superagent": "^3.5.2",
-    "uws": "^8.14.1",
-    "validator": "^9.1.1",
-    "ytdl-core": "^0.16.2",
-    "axios": "^0.15.3",
-    "discord-helpers": "github:mindaugaskasp/discord-helpers#master"
+    "discord.js": "^11.1.0",
+    "opusscript": "0.0.3",
+    "simple-youtube-api": "^3.0.0",
+    "ytdl-core": "^0.16.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.0.0",
+    "eslint-config-aqua": "^1.0.0"
+  },
+  "eslintConfig": {
+    "extends": "aqua",
+    "rules": {
+      "no-console": 0
+    }
   }
 }
