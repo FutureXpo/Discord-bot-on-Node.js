@@ -2,10 +2,10 @@
   "name": "discord-music-bot",
   "version": "1.0.0",
   "description": "Discord music bot based on discord.js & discord.js-commando",
-  "main": "index.js",
+  "main": "bot.js",
   "scripts": {
-    "prod": "node ./index.js",
-    "debug": "node --inspect-brk=127.0.0.1:8080 ./index.js",
+    "prod": "node ./bot.js",
+    "debug": "node --inspect-brk=127.0.0.1:8080 ./bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
