@@ -63,7 +63,7 @@ exports.play = {
 			if (!suffix.toLowerCase().startsWith('http')) {
 				suffix = 'gvsearch1:' + suffix;
 			}
-
+			
 			// Get the video info from youtube-dl.
 			YoutubeDL.getInfo(suffix, ['-q', '--no-warnings', '--force-ipv4'], (err, info) => {
 				// Verify the info.
@@ -73,8 +73,9 @@ exports.play = {
 				}
 
 				// Queue the video.
-				response.edit( wrap('В очередь добавлено: ' + info.title + JSON.stringify(info))).then((resp) => {
+				response.edit( wrap('В очередь добавлено: ' + info.title)).then((resp) => {
 					queue.push(info);
+					console.error(info);
 					// Play if only one element in the queue.
 					if (queue.length === 1) {
 						executeQueue(client, msg, queue);
