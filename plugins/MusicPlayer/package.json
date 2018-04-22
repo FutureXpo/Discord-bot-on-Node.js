@@ -1,6 +1,7 @@
 {
   "main": "player.js",
   "dependencies": {
+	"discord.js":"11.3.x",
     "youtube-audio-stream": "0.0.50",
     "youtube-search": "^1.0.10",
     "youtube-playlist-info": "^0.1.0"
