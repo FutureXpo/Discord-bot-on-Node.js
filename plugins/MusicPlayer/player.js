@@ -1,4 +1,5 @@
 const yt = require('ytdl-core');
+const YoutubeDL = require('youtube-dl');
 var requestl = require('superagent');
 
 const API_KEY = process.env.YOUTUBE_API_KEY;
@@ -62,7 +63,7 @@ const commands = {
 			voiceChannel.join().then(connection => resolve(connection)).catch(err => reject(err));
 		});
 	},
-	'play': (msg) => {
+	'play': (msg) => {/*
 		let arg = msg.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
 		arg.shift().toLowerCase();
 		let url = arg.join('%20');
@@ -101,7 +102,32 @@ const commands = {
 			if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
 			queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
 			msg.channel.sendMessage(`**${info.title}** __теперь в текущем плейлисте__`).then(() => commands.play_(msg));
-		});
+		});*/
+		let arg = msg.content.slice(process.env.PREFIX.length).trim().split(/ +/g);
+		arg.shift().toLowerCase();
+		let suffix = arg.join('%20');
+		msg.channel.sendMessage( wrap('Поиск...')).then(response => {
+			// If the suffix doesn't start with 'http', assume it's a search.
+			if (!suffix.toLowerCase().startsWith('http')) {
+				suffix = 'gvsearch1:' + suffix;
+			}
+			
+			// Get the video info from youtube-dl.
+			YoutubeDL.getInfo(suffix, ['-q', '--no-warnings', '--force-ipv4'], (err, info) => {
+				// Verify the info.
+				if (err || info.format_id === undefined || info.format_id.startsWith('0')) {
+					console.error(err);
+					return response.edit( wrap('Произошла ошибка!'));
+				}
+				
+				// Queue the video.
+				response.edit( wrap('В очередь добавлено: ' + info.title)).then((resp) => {
+					if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
+					queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
+
+				}).catch(() => {});
+			});
+		}).catch(() => {});
 	},
         'queue': (msg) => {
 		if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Добавьте больше песен в список с помощью команды \'${process.env.PREFIX}play\'`);
