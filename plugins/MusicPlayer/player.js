@@ -1,5 +1,5 @@
 const yt = require('ytdl-core');
-var request1 = require('superagent');
+var requestl = require('superagent');
 
 const API_KEY = process.env.YOUTUBE_API_KEY;
 const WATCH_VIDEO_URL = "https://www.youtube.com/watch?v=";
