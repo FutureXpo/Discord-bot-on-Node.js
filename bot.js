@@ -7,7 +7,6 @@ process.on('unhandledRejection', (reason) => {
 
 try {
 	var Discord = require("discord.js");
-	const Music = require('discord.js-musicbot-addon');
 } catch (e){
 	console.log(e.stack);
 	console.log(process.version);
@@ -16,6 +15,7 @@ try {
 }
 console.log("Starting DiscordBot\nNode version: " + process.version + "\nDiscord.js version: " + Discord.version);
 
+const Music = require('discord.js-musicbot-addon');
 const music = new Music(client, {
   youtubeKey: process.env.YOUTUBE_API_KEY
 });
