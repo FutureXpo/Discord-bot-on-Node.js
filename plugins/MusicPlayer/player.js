@@ -4,7 +4,7 @@ exports.commands = [
 	"init_music"
 ]
 
-exports.watchtogether = {
+exports.init_music = {
 	usage: "",
 	description: "Создает комнату, чтобы смотреть видосик одновременно!",
 	process: function(bot,msg,suffix){
