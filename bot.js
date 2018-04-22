@@ -15,11 +15,6 @@ try {
 }
 console.log("Starting DiscordBot\nNode version: " + process.version + "\nDiscord.js version: " + Discord.version);
 
-const Music = require('discord.js-musicbot-addon');
-const music = new Music(client, {
-  youtubeKey: process.env.YOUTUBE_API_KEY
-});
-
 // Get authentication data
 var AuthDetails = {
 	'client_id':process.env.BOT_ID,
@@ -357,6 +352,11 @@ bot.on("messageUpdate", (oldMessage, newMessage) => {
 	checkMessageForCommand(newMessage,true);
 });
 
+const Music = require('discord.js-musicbot-addon');
+const music = new Music(bot, {
+  youtubeKey: process.env.YOUTUBE_API_KEY
+});
+
 //Log user status changes
 bot.on("presence", function(user,status,gameId) {
 	//if(status === "online"){
@@ -377,7 +377,6 @@ bot.on("presence", function(user,status,gameId) {
 	}catch(e){}
 });
 
-
 exports.addCommand = function(commandName, commandObject){
     try {
         commands[commandName] = commandObject;
@@ -385,9 +384,11 @@ exports.addCommand = function(commandName, commandObject){
         console.log(err);
     }
 }
+
 exports.commandCount = function(){
     return Object.keys(commands).length;
 }
+
 if(AuthDetails.bot_token){
 	console.log("logging in with token");
 	bot.login(AuthDetails.bot_token);
