@@ -1,6 +1,7 @@
 try {
 	var music_addon = require("./music_addon");
 	var Music = new music_addon();
+	var key = process.env.YOUTUBE_API_KEY;
 } catch(e){
 	console.log("couldn't load music plugin!\n"+e.stack);
 }
@@ -13,7 +14,7 @@ exports.init_music = {
 	description: "Музыкальный бот!",
 	process: function(bot,msg,suffix){
 		const music = new Music(bot, {
-		  youtubeKey: process.env.YOUTUBE_API_KEY,
+		  youtubeKey: key,
 //		  prefix: prefix,       // Prefix for the commands.
 //		  global: true,         // Non-server-specific queues.
 		  maxQueueSize: 25,     // Maximum queue size of 25.
