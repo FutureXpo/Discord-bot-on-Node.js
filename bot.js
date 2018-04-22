@@ -352,11 +352,6 @@ bot.on("messageUpdate", (oldMessage, newMessage) => {
 	checkMessageForCommand(newMessage,true);
 });
 
-const Music = require('discord.js-musicbot-addon');
-const music = new Music(bot, {
-  youtubeKey: process.env.YOUTUBE_API_KEY
-});
-
 //Log user status changes
 bot.on("presence", function(user,status,gameId) {
 	//if(status === "online"){

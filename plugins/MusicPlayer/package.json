@@ -1,0 +1,8 @@
+{
+  "main": "player.js",
+  "dependencies": {
+    "youtube-audio-stream": "0.0.50",
+    "youtube-search": "^1.0.10",
+    "youtube-playlist-info": "^0.1.0"
+  }
+}
