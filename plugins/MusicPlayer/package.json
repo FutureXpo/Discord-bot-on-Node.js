@@ -1,6 +1,7 @@
 {
   "main": "player.js",
   "dependencies": {
-    "youtube-dl": "^1.11.1"
+    "ytdl-core" : "^0.19.0",
+    "superagent": "^3.8.2"
   }
 }
