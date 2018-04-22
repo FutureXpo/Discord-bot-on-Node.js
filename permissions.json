@@ -1,0 +1,28 @@
+{
+	"global":{
+		"eval": false,
+		"pullanddeploy": false,
+		
+		"alias": false,
+		"create": false,
+		"delete": false,
+		"log": false,
+		"servers": false,
+		"setUsername": false,
+		"voice": false
+	},
+	"users":{
+		"356504532198359042":{
+			"eval": true,
+			"pullanddeploy": true,
+		
+			"alias": true,
+			"create": true,
+			"delete": true,
+			"log": true,
+			"servers": true,
+			"setUsername": true,
+			"voice": true
+		}
+	}
+}
