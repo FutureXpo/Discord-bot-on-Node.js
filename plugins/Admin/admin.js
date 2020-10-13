@@ -8,9 +8,7 @@ var startTime = Date.now();
 
 exports.setUsername = {
 	description: "Установить имя боту. Работает не чаще двух раз в час!",
-	process: function(bot,msg,suffix) {
-		bot.user.setUsername(suffix);
-	}
+	process: function(bot,msg,suffix) {bot.user.setUsername(suffix);}
 }
 
 exports.log = {
